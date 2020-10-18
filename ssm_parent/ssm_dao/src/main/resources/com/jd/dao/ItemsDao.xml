@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--名称空间-->
+<mapper namespace="com.jd.dao.ItemsDao">
+    <!--插入操作-->
+    <insert id="save" keyProperty="id" useGeneratedKeys="true">
+        insert into items  (name,price,pic,createtime,detail)
+         VALUES(#{name},#{price},#{pic},#{createtime},#{detail})
+    </insert>
+    <!--查询所有操作-->
+    <select id="findAll" resultType="Items">
+        select *from items
+    </select>
+</mapper>
