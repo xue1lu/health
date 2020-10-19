@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace属性：名称空间， 写接口的全限定名-->
+<!--
+    <mappers>
+         <mapper resource="com/itheima/dao/UserDao.xml"/>
+     </mappers>
+-->
+<!--
+ 此方式只能用作:代理开发模式【要求接口、mapper文件名字、目录要一致】
+ 配置单个接口
+ <mappers>
+ 	<mapper class="com.itheima.dao.UserDao"></mapper>
+</mappers>
+批量配置【要求接口、mapper文件名字、目录要一致】
+<mappers>
+   <package name="com.itheima.dao"></package>
+</mappers>
+-->
+<mapper namespace="com.jd.dao.UserDao">
+
+
+    <!--select标签用于插叙；  id属性值就是接口的方法名，
+        resultType ：返回值的类型
+                    如果是集合，写泛型即可；
+    -->
+    <select id="findAll" resultType="com.jd.bean.User">
+        select *from t_user;
+    </select>
+    <insert id="save" keyProperty="uid" useGeneratedKeys="true">
+        <!--#{}是占位符表达式，就类似于获得对应的参数值（类似于给预编译语句的？占位符设置对应的参数）-->
+        insert into t_user values (null,#{username},#{sex}, #{birthday}, #{address});
+      <!-- <selectKey keyProperty="uid" resultType="int" order="AFTER">
+           select last_insert_id()
+       </selectKey>-->
+    </insert>
+    <update id="update">
+      update t_user set sex=#{sex},address=#{address} where uid=#{uid};
+    </update>
+    <delete id="deleteById">
+        delete from t_user where uid=#{id};
+
+    </delete>
+    <select id="findByFirstName" resultType="com.jd.bean.User">
+        select *from t_user where username like #{firstName};
+/*直接拼接参数和模式匹配符：==LIKE #{firstName}"%"*/
+    </select>
+
+    <!--动态 SQL 之if标签 -->
+    <select id="findByUidAndUsername" resultType="com.jd.bean.User">
+        /*--动态 SQL 之if标签-->
+     <!--   select * from t_user where 1=1
+        <if test="uid!=null">
+            and uid=#{uid}
+        </if>
+        <if test="username!=null">
+            and username=#{username}
+        </if>-->*/
+
+        <!--动态 SQL 之where标签,<where />可以==自动处理第一个 and , 建议全部加上and==-->
+        select * from t_user
+        <where>
+            <if test="uid!=null">
+                and uid=#{uid}
+            </if>
+            <if test="username!=null">
+                and username=#{username}
+            </if>
+        </where>
+    </select>
+
+
+    <!--动态 SQL 之set标签,修改数据时，如果某些字段用户没有填，没有改-应该不动（而不是改为null）-->
+    <!--set会自动去除最后一个条件的,号，所以在每一个条件中都添加,-->
+    <update id="updateByCondition">
+        update t_user
+        <set>
+            <if test="username!=null">username=#{username},</if>
+            <if test="sex!=null">sex=#{sex},</if>
+            <if test="birthday!=null">birthday=#{birthday},</if>
+            <if test="address!=null">address=#{address},</if>
+        </set>
+        <where>
+            <if test="uid!=null">uid=#{uid}</if>
+        </where>
+    </update>
+
+
+
+
+    <!--foreach遍历： 通常在实现 in(值, 值...)
+            属性：
+                collection 是参数名，list集合，不需要加#{}，直接写参数名。
+                open：遍历开始时的一个字符
+                close：遍历结束时的字符
+                item: 每次遍历的元素保存的变量，标签体中使用#{}来引用
+                separator: 每个元素分隔符
+    -->
+    <select id="findByIds" resultType="com.jd.bean.User">
+        select * from t_user where uid in 
+        <foreach collection="ids" open="(" close=")" item="uid" separator=",">#{uid}</foreach>
+    </select>
+
+
+    <!--SQL 片段 <sql>标签可以定义在该映射文件中可能多次用到的sql语句，
+    在其他的标签（select、update...）中可以通过<include>标签来引用sql标签的id。-->
+
+    <select id="findUserInfo" resultType="com.jd.bean.User">
+        select <include refid="commonSql"/> from t_user
+    </select>
+    <sql id="commonSql"> username, sex, address</sql>
+    <!--sql标签可以把公共的sql语句进行抽取, 再使用include标签引入. 好处:好维护, 提示效率-->
+
+</mapper>
+
+
+    <!--在配置文件中
+    <typeAliases>
+        -取别名，在映射文件中就可以写user
+        <typeAlias type="com.itheima.bean.User" alias="user"/>
+    </typeAliases>
+    <select id="findAll" resultType="User">
+        select * from t_user
+    </select>
+    -->
+<!--
+使用package定义的别名：就是pojo的类名，大小写都可以
+<typeAliases>
+        批量设置别名， 别名就是类名
+    <package name="com.itheima.bean"/>
+</typeAliases>
+<select id="findAll" resultType="User">
+        select * from t_user
+</select>
+-->

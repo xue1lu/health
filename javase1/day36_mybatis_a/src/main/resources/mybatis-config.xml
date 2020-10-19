@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--引入外部的属性配置文件-->
+    <properties resource="jdbc.properties"/>
+    <!--驼峰命名,核心配置文件中mybatis-config.xml设置：-->
+    <settings>
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+
+   <!-- <typeAliases>
+        &lt;!&ndash;取别名，在映射文件中就可以写user&ndash;&gt;
+        <typeAlias type="com.itheima.bean.User" alias="user"/>
+
+        &lt;!&ndash;批量设置别名， 别名就是类名&ndash;&gt;
+        <package name="com.itheima.bean"/>
+    </typeAliases>-->
+
+    <!--配置环境-->
+    <environments default="mysql">
+        <environment id="mysql">
+            <!--配置事务的类型-->
+            <transactionManager type="JDBC"></transactionManager>
+            <!--配置数据源也叫连接池-->
+            <dataSource type="POOLED">
+                <!--数据库连接的配置-->
+               <!-- <property name="driver" value="com.mysql.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/day36"/>
+                <property name="username" value="root"/>
+                <property name="password" value="root"/>-->
+                <!--引入外部配置文件后可以使用EL表达式-->
+                <property name="driver" value="${driver}"/>
+                <property name="url" value="${url}"/>
+                <property name="username" value="${username}"/>
+                <property name="password" value="${password}"/>
+
+            </dataSource>
+        </environment>
+    </environments>
+    <!-- 指定映射文件所在位置 ,指的是每个dao独立的配置文件-->
+    <mappers>
+        <package name="com.jd.dao"/>
+    </mappers>
+
+    
+</configuration>
+<!--
+尽管可以配置多个环境，但每个 SqlSessionFactory 实例只能选择一种环境==；
+所以，如果你想连接两个数据库，就需要创建两个 SqlSessionFactory 实例，每个数据库对应一个。
+而如果是三个数据库，就需要三个实例，依此类推；<u>可以这么理解一个数据库一个SqlSessionFactory 实例</u>。
+-->
+<!--
+扩展：mybatis核心配置文件的内容如transactionManager、dataSource的配置信息可以在Configuration类的构造器中查看：
+public Configuration() {
+    // transactionManager
+    typeAliasRegistry.registerAlias("JDBC", JdbcTransactionFactory.class);
+    typeAliasRegistry.registerAlias("MANAGED", ManagedTransactionFactory.class);
+
+    // dataSource
+    typeAliasRegistry.registerAlias("JNDI", JndiDataSourceFactory.class);
+    typeAliasRegistry.registerAlias("POOLED", PooledDataSourceFactory.class);
+    typeAliasRegistry.registerAlias("UNPOOLED", UnpooledDataSourceFactory.class);
+    // .......
+}
+-->
+    
