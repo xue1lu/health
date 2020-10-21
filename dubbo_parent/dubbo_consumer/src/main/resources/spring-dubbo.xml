@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://dubbo.apache.org/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
+
+<!--  发布的名称  -->
+    <dubbo:application name="dubbo_consumer"/>
+<!--  注册中心  -->
+    <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
+<!--  服务订阅扫包
+      在controller的服务注入使用@Reference(dubbo)-->
+
+    <dubbo:annotation package="com.jd"/><!---->
+
+    <dubbo:reference interface="com.jd.service.UserService" id="userService"/>
+
+<!--  启动时是否检查服务提供者是否存在，true: 则会检查【上线时】，没有则报错。false不检查
+ retries: 失败后的重试次数
+ -->
+    <dubbo:consumer check="false" timeout="2000" retries="2"/>
+
+</beans>
+    
