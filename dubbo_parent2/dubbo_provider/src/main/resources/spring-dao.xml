@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    <!--<context:property-placeholder location="classpath:jdbc.properties"/> 创建PropertyPlaceholderConfigurer
+        spring加载过程中，会容器通过@Autowired(通过类型)获取PropertyPlaceholderConfigurer对象
+           <context:property-placeholder 注释掉后，就没有了这个对象
+        但是 自己的类SettingCenterUtil 注册到容器中了. 此时容器就有了
+        PropertyPlaceholderConfigurer类型的对象
+        SettingCenterUtil 代替了 <context:property-placeholder location="classpath:jdbc.properties"/>
+    -->
+
+    <bean class="com.itheima.utils.SettingCenterUtil"/>
+    <!-- 数据源 -->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="driverClassName" value="${jdbc.driver}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.user}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+    <!-- sqlSessionFactory工厂-->
+    <bean class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <!-- 别名扫包   -->
+        <property name="typeAliasesPackage" value="com.itheima.pojo"/>
+    </bean>
+    <!-- dao接口扫包 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.itheima.dao"/>
+    </bean>
+</beans>
