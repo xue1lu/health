@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--名称空间-->
+<mapper namespace="com.jd.health.dao.CheckItemDao">
+
+    <!--查询所有检查项的方法-->
+    <select id="findAll" resultType="CheckItem">
+        select *from t_checkitem
+    </select>
+   <!--分页查询-->
+    <select id="findByCondition" resultType="CheckItem">
+        select *from t_checkitem
+        <if test="value !=null and value.length > 0">
+            where code like #{value} or name like #{value}
+        </if>
+    </select>
+
+    <!--新增检查项-->
+    <insert id="add" parameterType="CheckItem">
+        insert into t_checkitem(code,name,sex,age,price,type,remark,attention)
+        values(#{code},#{name},#{sex},#{age},#{price},#{type},#{remark},#{attention})
+
+    </insert>
+
+  <!--  &lt;!&ndash;分页查询&ndash;&gt;
+    <select id="findByCondition" resultType="java.lang.Long">
+        select count(*) from t_checkitem where name like "%"#{queryString}"%"
+    </select>
+    <select id="findCurrnet" resultType="com.jd.health.pojo.CheckItem">
+        select *from t_checkitem where name like "%"#{queryString}"%" limit (#{currentPage}-1)*(#{pageSize}),#{pageSize}
+    </select>-->
+</mapper>
