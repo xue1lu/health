@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--名称空间-->
+<mapper namespace="com.jd.health.dao.SetmealDao">
+
+    <!--新增套餐-->
+    <insert id="add" keyProperty="id" useGeneratedKeys="true">
+        insert into t_setmeal (name,code,helpCode,sex,age,price,remark,attention,img)
+        values (#{name},#{code},#{helpCode},#{sex},#{age},#{price},#{remark},#{attention},#{img})
+    </insert>
+    <!--更新套餐检查组中间表-->
+    <insert id="addSetmealCheckGroup">
+        insert into t_setmeal_checkgroup (setmeal_id,checkgroup_id)
+        values (#{setmealId},#{checkgroupId})
+    </insert>
+
+    <!--更新套餐-->
+    <update id="update">
+        update t_setmeal set
+         name=#{name},
+         code=#{code},
+         helpCode=#{helpCode},
+         sex=#{sex},
+         age=#{age},
+         price=#{price},
+         remark=#{remark},
+         attention=#{attention},
+         img=#{img}
+        where id=#{id}
+    </update>
+
+    <!--根据套餐id删除关联的检查组信息-->
+    <delete id="deleteSetmealCheckGroupBySetmealId">
+        delete from t_setmeal_checkgroup where setmeal_id=#{setmealId}
+    </delete>
+
+    <!--删除套餐-->
+    <delete id="deleteById">
+        delete from t_setmeal where id=#{setmealId}
+    </delete>
+
+    <!--分页查询-->
+    <select id="findPage" resultType="com.jd.health.pojo.Setmeal">
+        select *from t_setmeal
+        <if test="value!=null and value.length>0">
+            where code like #{value} or name like #{value} or helpCode like #{value}
+        </if>
+    </select>
+
+    <!--根据id查询套餐-->
+    <select id="findById" resultType="com.jd.health.pojo.Setmeal" parameterType="int">
+        select *from t_setmeal where id=#{setmealId}
+    </select>
+
+    <!--//根据套餐id查询勾选关联的检查组ids-->
+    <select id="findSetmealCheckGroupBySetmealId" resultType="java.lang.Integer">
+        select  checkgroup_id from t_setmeal_checkgroup where setmeal_id=#{setmealId}
+    </select>
+
+    <!--根据套餐id查询关联订单-->
+    <select id="findOrderCountBysetmealId" resultType="java.lang.Integer">
+        select count(1) from t_order where setmeal_id=#{setmealId}
+    </select>
+
+    <!--//查询数据库中所有图片名称-->
+    <select id="findImgs" resultType="java.lang.String">
+        select img from t_setmeal
+    </select>
+</mapper>

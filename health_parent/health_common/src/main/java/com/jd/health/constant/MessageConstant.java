@@ -4,6 +4,10 @@ package com.jd.health.constant;
  * 消息常量
  */
 public interface MessageConstant {
+
+    static final String CHECKITEM_IN_USE = "检查项被检查组关联,不能删除";
+    static final String CHECKSETMEAL_IN_USE = "检查套餐被订单关联,不能删除";
+    static final String CHECKGROUP_IN_USE = "检查组被套餐关联,不能删除";
     static final String DELETE_CHECKITEM_FAIL = "删除检查项失败";
     static final String DELETE_CHECKITEM_SUCCESS = "删除检查项成功";
     static final String ADD_CHECKITEM_SUCCESS = "新增检查项成功";
@@ -25,6 +29,8 @@ public interface MessageConstant {
     static final String PIC_UPLOAD_FAIL = "图片上传失败";
     static final String ADD_SETMEAL_FAIL = "新增套餐失败";
     static final String ADD_SETMEAL_SUCCESS = "新增套餐成功";
+    static final String EDIT_SETMEAL_SUCCESS = "编辑套餐成功";
+    static final String DELETE_SETMEAL_SUCCESS = "删除套餐成功";
     static final String IMPORT_ORDERSETTING_FAIL = "批量导入预约设置数据失败";
     static final String IMPORT_ORDERSETTING_SUCCESS = "批量导入预约设置数据成功";
     static final String GET_ORDERSETTING_SUCCESS = "获取预约设置数据成功";

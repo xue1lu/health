@@ -1,6 +1,7 @@
 package com.jd.health.service;
 
 import com.jd.health.entity.PageResult;
+import com.jd.health.exception.HealthException;
 import com.jd.health.pojo.CheckItem;
 import com.jd.health.pojo.QueryPageBean;
 
@@ -19,6 +20,16 @@ public interface CheckItemService {
 
     //分页查询
     PageResult<CheckItem> findPage(QueryPageBean queryPageBean);
+
+    //删除检查项
+    void deleteById(int id) throws HealthException;
+
+    //根据id查询检查项
+    CheckItem findById(int id);
+
+    //编辑检查项
+    void update(CheckItem checkItem);
+
 
     /*PageResult<CheckItem> findPage(QueryPageBean queryPageBean);*/
 }

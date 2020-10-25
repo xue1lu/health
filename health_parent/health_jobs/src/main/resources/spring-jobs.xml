@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://code.alibabatech.com/schema/dubbo
+       http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+<!--指定应用名称-->
+    <dubbo:application name="health_job"/>
+    <!--指定注册中心地址-->
+    <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
+    <!--开启dubbo扫描注解包-->
+    <dubbo:annotation package="com.jd.health.job"/>
+    <!--配置任务策略-->
+    <bean id="jobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="cleanImgJob"/>
+        <property name="targetMethod" value="cleanImg"/>
+        <!--开启单线程异步-->
+        <property name="concurrent" value="false"/>
+
+    </bean>
+    <!--配置触发器-->
+    <bean id="trigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="cronExpression" value="0/30****?"/>
+        <property name="jobDetail" ref="jobDetail"/>
+    </bean>
+    <!--配置调度容器-->
+    <bean class="org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler">
+        <property name="triggers">
+            <list>
+                <ref bean="trigger"/>
+            </list>
+        </property>
+    </bean>
+</beans>

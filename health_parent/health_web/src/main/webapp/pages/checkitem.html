@@ -245,6 +245,30 @@
         methods: {
             //编辑
             handleEdit() {
+                //校验编辑表单
+                this.$refs['dataEditForm'].validate((valid) => {
+                    if (valid) {
+                        //如果校验通过就向后端发送axios请求
+                        axios.post("/checkitem/update.do",this.formData).then(res => {
+                            this.$message({
+                                message: res.data.message,
+                                type: res.data.flag?"success":"error"
+                            });
+                            if (res.data.flag) {
+                                //如果修改成功则隐藏输入框
+                                this.dialogFormVisible4Edit = false;
+                                //调用查询列表方法
+                                setTimeout(this.findPage, 2500);
+                                //this.findPage();
+                                console.log(res.data);
+                            } else {
+                                this.$message.error("系统异常,稍后再试")
+                            }
+                        })
+                    }
+                });
+
+
             },
             //添加
             handleAdd() {
@@ -261,8 +285,11 @@
                                //如果新增成功则隐藏输入框
                                this.dialogFormVisible = false;
                                //调用查询列表方法
-                               this.findPage();
+                               setTimeout(this.findPage, 2500);
+                               //this.findPage();
                                console.log(res.data);
+                           } else {
+                               this.$message.error("系统异常,稍后再试")
                            }
                        })
                     }
@@ -276,11 +303,13 @@
                             message: res.data.message,
                             type: res.data.flag?"success":"error"
                         });
-                        if(res.data.flag){
-                            this.dataList = res.data.data.rows;
-                            this.pagination.total = res.data.data.total;
-                            console.log(res.data)
-                        }
+                    if (res.data.flag) {
+                        this.dataList = res.data.data.rows;
+                        this.pagination.total = res.data.data.total;
+                        console.log(res.data);
+                    } else {
+                        this.$message.error("系统异常,稍后再试")
+                    }
                 })
             },
             // 重置表单
@@ -289,14 +318,28 @@
             },
             // 弹出添加窗口
             handleCreate() {
-                //点击新建按钮弹出新建框,修改弹窗可见
-                this.dialogFormVisible = true;
                 //清空上一次输入框的内容,重置表单
                 this.resetForm();
+                //点击新建按钮弹出新建框,修改弹窗可见
+                this.dialogFormVisible = true;
 
             },
             // 弹出编辑窗口
             handleUpdate(row) {
+                //编辑之前首先刷新弹出层
+                this.resetForm();
+                //修改编辑弹窗为可见
+                this.dialogFormVisible4Edit = true;
+                //发送根据id查询请求,回显前端数据
+                axios.get("/checkitem/findById.do?id="+row.id).then(res=>{
+                    //如果查询数据成功
+                    if (res.data.flag) {
+                        //回显数据
+                        this.formData = res.data.data;
+                    } else {
+                        this.$message.error("系统异常,稍后再试")
+                    }
+                })
             },
             //切换页码
             handleCurrentChange(currentPage) {
@@ -311,6 +354,26 @@
 
             // 删除
             handleDelete(row) {
+                this.$confirm('此操作将永久删除该检查项,是否继续','提示',{
+                    confirmButtonText: '确定',
+                    cancelButtonText:'取消',
+                    type:'warning'
+                }).then(()=>{
+                    //发送删除请求后端
+                    axios.get("/checkitem/deleteById.do?id="+row.id).then(res=>{
+                        if (res.data.flag) {
+                            this.$message.success(res.data.message);
+                            //刷新列表
+
+                            setTimeout(this.findPage, 2500);
+                            //this.findPage()
+                        } else {
+                            this.$message.error("系统异常,稍后再试")
+                        }
+                    })
+                }).catch(()=>{
+                    this.$message.info('已取消操作')
+                })
             }
         }
     })

@@ -55,4 +55,28 @@ public class CheckItemController {
         //响应前端
         return new Result(true, MessageConstant.QUERY_CHECKITEM_SUCCESS, pageResult);
     }
+
+    //删除检查项
+    @GetMapping("/deleteById")
+    public Result deleteById(int id) {
+        checkItemService.deleteById(id);
+        //响应
+        return new Result(true, MessageConstant.DELETE_CHECKITEM_SUCCESS);
+    }
+
+    //根据id查询检查项
+    @GetMapping("/findById")
+    public Result findById(int id) {
+        CheckItem checkItem=checkItemService.findById(id);
+        //响应
+        return new Result(true, MessageConstant.QUERY_CHECKITEM_SUCCESS, checkItem);
+    }
+
+    //修改检查项
+    @PostMapping("/update")
+    public Result update(@RequestBody CheckItem checkItem) {
+        checkItemService.update(checkItem);
+        //响应
+        return new Result(true, MessageConstant.EDIT_CHECKITEM_SUCCESS);
+    }
 }

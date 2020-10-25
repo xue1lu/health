@@ -19,6 +19,18 @@ public interface CheckItemDao {
     //分页查询
     Page<CheckItem> findByCondition(String queryString);
 
+    //删除检查项
+    void deleteById(int id);
+
+    //根据id查询检查项是否被绑定
+    int findCountByCheckItemId(int id);
+
+    //根据id查询检查项
+    CheckItem findById(int id);
+
+    //编辑检查项
+    void update(CheckItem checkItem);
+
 
  /*   Long findByCondition(QueryPageBean queryPageBean);
 

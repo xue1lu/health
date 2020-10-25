@@ -5,17 +5,46 @@
 
 <!--名称空间-->
 <mapper namespace="com.jd.health.dao.CheckItemDao">
+    <!--修改编辑检查项-->
+    <update id="update" parameterType="CheckItem">
+        update t_checkitem set
+          code=#{code},
+          name=#{name},
+          sex=#{sex},
+          age=#{age},
+          price=#{price},
+          type=#{type},
+          remark=#{remark},
+          attention=#{attention} where id=#{id}
+
+    </update>
+
+    <!--删除检查项-->
+    <delete id="deleteById">
+        delete from t_checkitem where id=#{id}
+    </delete>
 
     <!--查询所有检查项的方法-->
     <select id="findAll" resultType="CheckItem">
         select *from t_checkitem
     </select>
-   <!--分页查询-->
+
+    <!--分页查询-->
     <select id="findByCondition" resultType="CheckItem">
         select *from t_checkitem
         <if test="value !=null and value.length > 0">
             where code like #{value} or name like #{value}
         </if>
+    </select>
+
+    <!--根据checkitemid查询检查项是否被检查组使用-->
+    <select id="findCountByCheckItemId" resultType="java.lang.Integer">
+        select count(1) from t_checkgroup_checkitem where checkitem_id=#{id}
+    </select>
+
+    <!--根据id查询检查项-->
+    <select id="findById" resultType="com.jd.health.pojo.CheckItem">
+        select *from t_checkitem where id=#{id}
     </select>
 
     <!--新增检查项-->
@@ -25,11 +54,11 @@
 
     </insert>
 
-  <!--  &lt;!&ndash;分页查询&ndash;&gt;
-    <select id="findByCondition" resultType="java.lang.Long">
-        select count(*) from t_checkitem where name like "%"#{queryString}"%"
-    </select>
-    <select id="findCurrnet" resultType="com.jd.health.pojo.CheckItem">
-        select *from t_checkitem where name like "%"#{queryString}"%" limit (#{currentPage}-1)*(#{pageSize}),#{pageSize}
-    </select>-->
+    <!--  &lt;!&ndash;分页查询&ndash;&gt;
+      <select id="findByCondition" resultType="java.lang.Long">
+          select count(*) from t_checkitem where name like "%"#{queryString}"%"
+      </select>
+      <select id="findCurrnet" resultType="com.jd.health.pojo.CheckItem">
+          select *from t_checkitem where name like "%"#{queryString}"%" limit (#{currentPage}-1)*(#{pageSize}),#{pageSize}
+      </select>-->
 </mapper>
