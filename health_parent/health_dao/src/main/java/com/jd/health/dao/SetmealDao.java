@@ -1,6 +1,8 @@
 package com.jd.health.dao;
 
 import com.github.pagehelper.Page;
+import com.jd.health.pojo.CheckGroup;
+import com.jd.health.pojo.CheckItem;
 import com.jd.health.pojo.Setmeal;
 import org.apache.ibatis.annotations.Param;
 
@@ -40,4 +42,19 @@ public interface SetmealDao {
 
     //查询数据库中所有图片名称
     List<String> findImgs();
+
+    //查询所有套餐
+    List<Setmeal> findAll();
+
+    //根据套餐id查询对应的检查组
+    List<CheckGroup> findCheckGroupBySetmealId(int setmealId);
+
+    //根据检查组id查询对应的检查项
+    List<CheckItem> findCheckItemByCheckGroupId(Integer checkGroupId);
+
+    //根据套餐id查询套餐详情2
+    Setmeal findDetailById2(int setmealId);
+
+    //根据套餐id查询套餐详情3
+    Setmeal findDetailById3(int setmealId);
 }

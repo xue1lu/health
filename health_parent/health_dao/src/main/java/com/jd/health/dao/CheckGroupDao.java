@@ -42,4 +42,7 @@ public interface CheckGroupDao {
 
     //查询所有检查组
     List<CheckGroup> findAll();
+
+    //根据套餐id查询检查组
+    List<CheckGroup> findCheckGroupListById(int setmealId);
 }

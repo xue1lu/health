@@ -1,6 +1,7 @@
 package com.jd.health.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.jd.health.constant.MessageConstant;
 import com.jd.health.dao.OrderSettingDao;
 import com.jd.health.exception.HealthException;
 import com.jd.health.pojo.OrderSetting;
@@ -27,15 +28,13 @@ public class OrderSettingServiceImpl implements OrderSettingService {
     public void add(List<OrderSetting> orderSettingList)throws HealthException {
 
         //遍历日期和预约时间
-        if (orderSettingList.size() > 0) {
-
             for (OrderSetting orderSetting : orderSettingList) {
                 //查询预约日期对应的预约信息
                 OrderSetting osInDb = orderSettingDao.findNumberByOrderDate(orderSetting.getOrderDate());
                 if (osInDb != null) {
                     if (osInDb.getReservations() > orderSetting.getNumber()) {
                         //如果数据库中已经预约的人数大于要导入的预约设置人数
-                        throw new HealthException(orderSetting.getOrderDate() + "中已预约的数量不能大于可预约的数量");
+                        throw new HealthException(MessageConstant.IMPORT_ORDERSETTING_FAIL);
                     }
                     //反之根据日期更新可预约的人数
                     orderSettingDao.updateNumberByOrderDate(orderSetting);
@@ -44,7 +43,7 @@ public class OrderSettingServiceImpl implements OrderSettingService {
                     orderSettingDao.add(orderSetting);
                 }
             }
-        }
+
     }
 
     //根据月份查询预约信息

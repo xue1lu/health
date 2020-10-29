@@ -364,7 +364,8 @@
             formData: {},//表单数据
             tableData: [],//添加表单窗口中检查组列表数据
             checkgroupIds: [],//添加表单窗口中检查组复选框对应id
-            dialogFormVisible: false//控制添加窗口显示/隐藏
+            dialogFormVisible: false,//控制添加窗口显示/隐藏
+            dialogFormVisible4Edit: false//控制编辑窗口显示/隐藏
         },
         created() {
             this.findPage();
@@ -529,7 +530,7 @@
                         //关闭弹窗
                         this.dialogFormVisible4Edit = false;
                         //刷新列表
-                        setTimeout(this.findPage, 2500);
+                        setTimeout(this.findPage, 2000);
                     }
                 })
             },

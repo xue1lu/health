@@ -31,6 +31,8 @@ public interface CheckItemDao {
     //编辑检查项
     void update(CheckItem checkItem);
 
+    //根据检查组id查询检查项
+    List<CheckItem> findCheckItemListById(int checkGroupId);
 
  /*   Long findByCondition(QueryPageBean queryPageBean);
 

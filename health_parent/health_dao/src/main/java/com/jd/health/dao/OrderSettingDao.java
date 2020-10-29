@@ -24,4 +24,9 @@ public interface OrderSettingDao {
     List<OrderSetting> findOrderSettingByMonth(String month);
 
 
+    //根据日期查询预约设置
+    OrderSetting findOrderSettingByOrderDate(Date orderDate);
+
+    //更新预约人数
+    int updateReservationByOrderDate(OrderSetting orderSetting);
 }

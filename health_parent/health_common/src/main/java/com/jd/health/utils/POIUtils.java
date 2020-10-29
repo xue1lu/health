@@ -18,6 +18,7 @@ public class POIUtils {
     private final static String xls = "xls";
     private final static String xlsx = "xlsx";
     public final static String DATE_FORMAT = "yyyy/MM/dd";
+    private final static SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);//只创建一个
     /**
      * 读入excel文件，解析后返回
      * @param file
@@ -108,7 +109,7 @@ public class POIUtils {
         //如果当前单元格内容为日期类型，需要特殊处理
         String dataFormatString = cell.getCellStyle().getDataFormatString();
         if(dataFormatString.equals("m/d/yy")){
-            cellValue = new SimpleDateFormat(DATE_FORMAT).format(cell.getDateCellValue());
+            cellValue = sdf.format(cell.getDateCellValue());
             return cellValue;
         }
         //把数字当成String来读，避免出现1读成1.0的情况

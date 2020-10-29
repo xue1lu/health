@@ -64,4 +64,23 @@
     <select id="findAll" resultType="com.jd.health.pojo.CheckGroup">
         select *from t_checkgroup
     </select>
+
+    <!--根据套餐id查询检查组-->
+    <select id="findCheckGroupListById" resultMap="findByIdResultMap">
+    select * from t_checkgroup  where id
+    in (select checkgroup_id from t_setmeal_checkgroup where setmeal_id=#{setmealId})
+    </select>
+
+   <resultMap id="findByIdResultMap" type="CheckGroup">
+       <id property="id" column="id"/>
+       <result column="name" property="name"/>
+       <result column="code" property="code"/>
+       <result column="helpCode" property="helpCode"/>
+       <result column="sex" property="sex"/>
+       <result column="remark" property="remark"/>
+       <result column="attention" property="attention"/>
+       <collection property="checkItems" column="id" select="com.jd.health.dao.CheckItemDao.findCheckItemListById">
+
+       </collection>
+   </resultMap>
 </mapper>

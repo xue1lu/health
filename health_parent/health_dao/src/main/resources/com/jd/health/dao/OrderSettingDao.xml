@@ -11,6 +11,11 @@
         update t_ordersetting set number=#{number} where orderDate=#{orderDate}
     </update>
 
+    <!--更新预约人数-->
+    <update id="updateReservationByOrderDate">
+        update t_ordersetting set reservations=reservations+1 where orderDate=#{orderDate} and number>reservations
+    </update>
+
 
     <!--根据预约时间查询数据库中的预约设置信息-->
     <select id="findNumberByOrderDate" parameterType="date" resultType="OrderSetting">
@@ -20,6 +25,11 @@
     <!--根据月份查询预约信息-->
     <select id="findOrderSettingByMonth" resultType="com.jd.health.pojo.OrderSetting" parameterType="string">
         select *from t_ordersetting where orderDate like #{month}
+    </select>
+
+    <!--根据日期查询预约设置-->
+    <select id="findOrderSettingByOrderDate" resultType="com.jd.health.pojo.OrderSetting">
+        select *from t_ordersetting where orderDate=#{orderDate}
     </select>
 
 </mapper>

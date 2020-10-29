@@ -7,12 +7,15 @@ import com.jd.health.constant.MessageConstant;
 import com.jd.health.dao.SetmealDao;
 import com.jd.health.entity.PageResult;
 import com.jd.health.exception.HealthException;
+import com.jd.health.pojo.CheckGroup;
+import com.jd.health.pojo.CheckItem;
 import com.jd.health.pojo.QueryPageBean;
 import com.jd.health.pojo.Setmeal;
 import com.jd.health.service.SetmealService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+
 
 import java.util.List;
 
@@ -41,7 +44,7 @@ public class SetmealServiceImpl implements SetmealService {
     //新增套餐
     @Override
     @Transactional
-    public void add(Setmeal setmeal, Integer[] checkgroupIds) {
+    public Integer add(Setmeal setmeal, Integer[] checkgroupIds) {
         //新增套餐
         setmealDao.add(setmeal);
         //获取套餐id
@@ -54,6 +57,7 @@ public class SetmealServiceImpl implements SetmealService {
                 setmealDao.addSetmealCheckGroup(setmealId, checkgroupId);
             }
         }
+        return setmealId;
 
     }
 
@@ -106,6 +110,43 @@ public class SetmealServiceImpl implements SetmealService {
     @Override
     public List<String> findImgs() {
         return setmealDao.findImgs();
+    }
+
+    //查询所有套餐
+    @Override
+    public List<Setmeal> findAll() {
+        return setmealDao.findAll();
+    }
+
+    //根据套餐id查询套餐详情
+    @Override
+    public Setmeal findDetailById(int setmealId) {
+        //首先根据id查询套餐
+
+        Setmeal setmeal = setmealDao.findById(setmealId);
+        //根据id查询检查组
+        List<CheckGroup> checkGroupList = setmealDao.findCheckGroupBySetmealId(setmealId);
+        //遍历每个检查组,获取每个检查组id,根据id查询检查项
+        if (checkGroupList.size() > 0) {
+            for (CheckGroup checkGroup : checkGroupList) {
+                List<CheckItem> checkItemList=setmealDao.findCheckItemByCheckGroupId(checkGroup.getId());
+                checkGroup.setCheckItems(checkItemList);
+            }
+            setmeal.setCheckGroups(checkGroupList);
+        }
+        return setmeal;
+    }
+
+    //根据套餐id查询套餐详情2
+    @Override
+    public Setmeal findDetailById2(int setmealId) {
+        return setmealDao.findDetailById2(setmealId);
+    }
+
+    //根据套餐id查询套餐详情3
+    @Override
+    public Setmeal findDetailById3(int setmealId) {
+        return setmealDao.findDetailById3(setmealId);
     }
 
 }

@@ -6,6 +6,7 @@
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://code.alibabatech.com/schema/dubbo
        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+<!--xml方式配置quartz-->
 
 <!--指定应用名称-->
     <dubbo:application name="health_job"/>
@@ -34,4 +35,6 @@
             </list>
         </property>
     </bean>
+    <!--检查服务提供者是否提供-->
+    <dubbo:consumer check="false" timeout="6000"/>
 </beans>

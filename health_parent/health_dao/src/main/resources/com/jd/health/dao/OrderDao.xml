@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jd.health.dao.OrderDao">
+    <!--添加预约信息-->
+    <insert id="add" keyProperty="id" useGeneratedKeys="true">
+        insert into t_order (member_id,orderDate,orderType,orderStatus,setmeal_id)
+        values (#{memberId},#{orderDate},#{orderType},#{orderStatus},#{setmealId})
+    </insert>
+
+    <!--多条件查询是否有预约信息-->
+    <select id="findByCondition" resultType="com.jd.health.pojo.Order">
+        select *from t_order where member_id=#{memberId} and orderDate=#{orderDate} and setmeal_id=#{setmealId}
+    </select>
+    <select id="findOrderDetailById" resultType="java.util.Map">
+        select
+        m.name as member,
+        s.name as setmeal,
+        DATE_FORMAT(o.orderDate,'%Y-%m-%d') orderDate,
+        o.orderType
+        from
+        t_member as m,
+        t_setmeal as s,
+        t_order as o
+        where
+        o.id=#{orderId} and o.member_id=m.id and o.setmeal_id=s.id
+    </select>
+</mapper>

@@ -16,7 +16,7 @@ public interface SetmealService {
     PageResult<Setmeal> findPage(QueryPageBean queryPageBean);
 
     //新增套餐
-    void add(Setmeal setmeal, Integer[] checkgroupIds);
+    Integer add(Setmeal setmeal, Integer[] checkgroupIds);
 
 
     ////根据id查询套餐
@@ -34,4 +34,15 @@ public interface SetmealService {
 
     //查询数据库中所有图片名称
     List<String> findImgs();
+
+    //查询所有套餐
+    List<Setmeal> findAll();
+
+    //根据套餐id查询套餐详情
+    Setmeal findDetailById(int setmealId);
+
+    //根据套餐id查询套餐详情2
+    Setmeal findDetailById2(int setmealId);
+    //根据套餐id查询套餐详情3
+    Setmeal findDetailById3(int setmealId);
 }

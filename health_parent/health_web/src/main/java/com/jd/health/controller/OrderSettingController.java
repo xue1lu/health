@@ -22,13 +22,13 @@ import java.util.Map;
 @RestController
 @RequestMapping("/ordersetting")
 public class OrderSettingController {
-    private static final Logger log = LoggerFactory.getLogger(OrderSettingService.class);
+    private static final Logger log = LoggerFactory.getLogger(OrderSettingController.class);
 
     @Reference
     private OrderSettingService orderSettingService;
     //上传预约设置信息
     @PostMapping("/upload")
-    public Result upload(MultipartFile excelFile) {
+    public Result upload(MultipartFile excelFile) throws Exception{
         try {
             //读取excel文件内容
             List<String[]> strings = POIUtils.readExcel(excelFile);
@@ -56,8 +56,8 @@ public class OrderSettingController {
             //响应
             return new Result(true, MessageConstant.IMPORT_ORDERSETTING_SUCCESS);
         } catch (Exception e) {
-            log.error("上传预约设置失败",e);
-            return new Result(false, MessageConstant.IMPORT_ORDERSETTING_FAIL);
+            log.error(MessageConstant.IMPORT_ORDERSETTING_FAIL,e);
+            throw e;
         }
 
     }

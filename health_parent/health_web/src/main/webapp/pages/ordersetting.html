@@ -176,6 +176,8 @@
                     inputErrorMessage: '数量不正确, 数量必须为正整数'
                 }).then(({value}) => {
                     var orderDate = this.formatDate1(day);
+                    //var number = value;
+                    //var json={orderDate,number} ES6的简化写法
                     var setData={orderDate:orderDate, number: value}
                     //发送请求
                     console.log(JSON.stringify(setData));
