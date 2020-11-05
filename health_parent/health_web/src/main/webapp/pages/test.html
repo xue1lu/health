@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../elementUI/index.css">
+    <!--先引入vue-->
+    <script src="../elementUI/vue.js"></script>
+    <script src="../elementUI/index.js"></script>
+</head>
+<body>
+<div id="app">
+
+    <el-date-picker
+
+            v-model="startTime"
+
+            type="month"
+
+            placeholder=" "
+
+            :picker-options="pickerOptions"
+
+            style="width:135px;"
+
+    ></el-date-picker>
+
+{{startTime}}
+    <el-date-picker
+
+            v-model="endTime"
+
+            type="month"
+
+            @change="changeDate"
+
+            placeholder=" "
+
+            :picker-options="pickerOptions1"
+
+            style="width:135px;"
+
+    ></el-date-picker>
+    {{endTime}}
+
+</div>
+</body>
+<script>
+    var vue = new Vue({
+        el: "#app",
+
+        data: {
+            startTime: '',
+            endTime: '',
+            pickerOptions: {
+                disabledDate: time => {
+                    return (
+
+                        time.getTime() > new Date().getTime() ||
+
+                        time.getTime() > new Date(this.endTime).getTime() - 8.64e7
+
+                    );
+
+                }
+
+            }, // 日期设置对象
+
+            pickerOptions1: {
+                disabledDate: time => {
+                    return (
+
+                        time.getTime() > new Date().getTime() + 8.64e7 ||
+
+                        time.getTime() < new Date(this.startTime).getTime() + 8.64e7
+
+                    );
+
+                }
+
+            },
+        }
+
+
+    })
+</script>
+</html>

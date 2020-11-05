@@ -32,7 +32,7 @@ public class OrderSettingController {
         try {
             //读取excel文件内容
             List<String[]> strings = POIUtils.readExcel(excelFile);
-            //转成oedersetting实体类类型
+            //转成ordersetting实体类类型
             List<OrderSetting> orderSettingList = new ArrayList<OrderSetting>();
             //创建日期格式解析对象
             SimpleDateFormat sdf = new SimpleDateFormat(POIUtils.DATE_FORMAT);

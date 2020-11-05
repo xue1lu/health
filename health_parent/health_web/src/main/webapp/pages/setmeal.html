@@ -415,7 +415,7 @@
                         //新增成功弹窗不可见
                         this.dialogFormVisible = false;
                         //刷新到查询页面
-                        setTimeout(this.findPage, 2500);
+                        this.findPage();
                     }
                 })
 
@@ -425,17 +425,17 @@
 
                 //发送请求查询所有套餐
                 axios.post("/setmeal/findPage.do", this.pagination).then(res => {
-                    this.$message({
+                   /* this.$message({
                         message: res.data.message,
                         type: res.data.flag ? "success" : "error"
-                    });
+                    });*/
                     if (res.data.flag) {
                         this.dataList = res.data.data.rows;
                         this.pagination.total = res.data.data.total;
                         console.log(res.data);
-                    } else {
+                    } /*else {
                         this.$message.error("系统异常,稍后再试")
-                    }
+                    }*/
                 })
             },
             // 重置表单
@@ -458,14 +458,18 @@
                 this.dialogFormVisible = true;
                 //发送请求后端加载检查组列表
                 axios.get("/checkgroup/findAll.do").then(res => {
+                    this.$message({
+                        message: res.data.message,
+                        type: res.data.flag ? "success" : "error"
+                    });
                     if (res.data.flag) {
                         //绑定数据
                         this.tableData = res.data.data;
                         console.log(res.data);
                         //this.$message.success("请选择")
-                    } else {
+                    } /*else {
                         this.$message.error("系统异常,稍后再试")
-                    }
+                    }*/
                 })
 
             },
@@ -503,17 +507,17 @@
                                     if (res2.data.flag) {
                                         //如果查询成功
                                         this.checkgroupIds = res2.data.data;
-                                    } else {
+                                    } /*else {
                                         this.$message.error("系统异常,稍后再试")
-                                    }
+                                    }*/
                                 });
-                            } else {
+                            }/* else {
                                 this.$message.error("系统异常,稍后再试")
-                            }
+                            }*/
                         });
-                    } else {
+                    }/* else {
                         this.$message.error("系统异常,稍后再试")
-                    }
+                    }*/
                 })
             },
             //编辑
@@ -530,7 +534,7 @@
                         //关闭弹窗
                         this.dialogFormVisible4Edit = false;
                         //刷新列表
-                        setTimeout(this.findPage, 2000);
+                        this.findPage();
                     }
                 })
             },
@@ -550,7 +554,7 @@
                         });
                         if (res.data.flag) {
                             //删除成功刷新列表
-                            setTimeout(this.findPage, 2500);
+                            this.findPage();
                         }
                     })
 

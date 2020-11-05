@@ -14,4 +14,21 @@
     <select id="findMemberByTelephone" resultType="com.jd.health.pojo.Member">
         select *from t_member where phoneNumber=#{telephone}
     </select>
+    <!--查询指定月份之前的累计会员数量-->
+    <select id="findMemberCountByBeforeDate" resultType="java.lang.Integer">
+        select count(id) from t_member where regTime &lt;=#{value}
+    </select>
+
+    <!--今日新增会员数-->
+    <select id="findMemberCountByDate" resultType="java.lang.Integer">
+        select count(id) from t_member where regTime =#{value}
+    </select>
+    <!--总会员数-->
+    <select id="findTotalCountMember" resultType="java.lang.Integer">
+        select count(id) from t_member
+    </select>
+    <!--指定日期后新增会员数）-->
+    <select id="findMemberCountAfterDate" resultType="java.lang.Integer">
+         select count(id) from t_member where regTime &gt;=#{value}
+    </select>
 </mapper>

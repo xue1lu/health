@@ -1,5 +1,8 @@
 package com.jd.health.pojo;
 
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
@@ -13,9 +16,11 @@ public class User implements Serializable{
     private Date birthday; // 生日
     private String gender; // 性别
     private String username; // 用户名，唯一
+    @Length(min = 4,max = 6,message = "密码必须为4-6位")
     private String password; // 密码
     private String remark; // 备注
     private String station; // 状态
+    @Length(min = 11,max = 11,message = "手机号必须11位")
     private String telephone; // 联系电话
     private Set<Role> roles = new HashSet<Role>(0);//对应角色集合
 

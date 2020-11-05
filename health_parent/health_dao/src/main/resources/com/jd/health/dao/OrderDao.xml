@@ -8,15 +8,46 @@
     </insert>
 
     <!--多条件查询是否有预约信息-->
-    <select id="findByCondition" resultType="com.jd.health.pojo.Order">
-        select *from t_order where member_id=#{memberId} and orderDate=#{orderDate} and setmeal_id=#{setmealId}
+    <select id="findByCondition" resultType="com.jd.health.pojo.Order" resultMap="baseResultMap">
+        select * from t_order
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="memberId != null">
+                and member_id = #{memberId}
+            </if>
+            <if test="orderDate != null">
+                and orderDate = #{orderDate}
+            </if>
+            <if test="orderType != null">
+                and orderType = #{orderType}
+            </if>
+            <if test="orderStatus != null">
+                and orderStatus = #{orderStatus}
+            </if>
+            <if test="setmealId != null">
+                and setmeal_id = #{setmealId}
+            </if>
+        </where>
     </select>
+    <!--列名与pojo属性名不一致,需要映射-->
+    <resultMap id="baseResultMap" type="Order">
+        <id column="id" property="id"/>
+        <result column="member_id" property="memberId"/>
+        <result column="orderDate" property="orderDate"/>
+        <result column="orderType" property="orderType"/>
+        <result column="orderStatus" property="orderStatus"/>
+        <result column="setmeal_id" property="setmealId"/>
+    </resultMap>
+
     <select id="findOrderDetailById" resultType="java.util.Map">
         select
         m.name as member,
         s.name as setmeal,
         DATE_FORMAT(o.orderDate,'%Y-%m-%d') orderDate,
-        o.orderType
+        o.orderType,
+        o.setmeal_id
         from
         t_member as m,
         t_setmeal as s,
@@ -24,4 +55,35 @@
         where
         o.id=#{orderId} and o.member_id=m.id and o.setmeal_id=s.id
     </select>
+    <!--今日预约数）-->
+    <select id="findOrderCountByDate" resultType="java.lang.Integer">
+        select count(id) from t_order where orderDate=#{value}
+    </select>
+    <!--（今日到诊数）-->
+    <select id="findVisitCountByDate" resultType="java.lang.Integer">
+        select count(id) from t_order where orderDate=#{value} and orderStatus='已到诊'
+    </select>
+    <!--区间预约数）-->
+    <select id="findTotalCountBetween" resultType="java.lang.Integer">
+         select count(id) from t_order where orderDate between #{startDate} and #{endDate}
+    </select>
+    <!--指定日期后到诊数）-->
+    <select id="findVisitCountAfterDate" resultType="java.lang.Integer">
+        select count(id) from t_order where orderDate &gt;=#{value} and orderStatus='已到诊'
+    </select>
+    <!--查询热门套餐-->
+    <select id="findHotSetmeal" resultType="java.util.Map">
+        select
+        s.name,
+        ot.total setmeal_count,
+        (sc.grouptotal/ot.total) proportion,
+        s.remark
+        from
+        (select setmeal_id ,count(id) grouptotal from t_order GROUP BY setmeal_id) sc,
+        (select count(id) total from t_order) ot  ,
+        t_setmeal s
+        where s.id=sc.setmeal_id
+        order by ot.total desc limit 0,4
+    </select>
+
 </mapper>

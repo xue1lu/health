@@ -11,6 +11,11 @@ public interface MessageConstant {
     static final String DELETE_CHECKITEM_FAIL = "删除检查项失败";
     static final String DELETE_CHECKITEM_SUCCESS = "删除检查项成功";
     static final String ADD_CHECKITEM_SUCCESS = "新增检查项成功";
+    static final String ADD_PERMISSION_SUCCESS = "新增权限成功";
+    static final String ADD_ROLE_SUCCESS = "新增角色成功";
+    static final String ADD_USER_SUCCESS = "新增用户成功";
+    static final String ADD_PERMISSION_FAIL = "新增权限失败";
+    //static final String exist_PERMISSION_name = "权限名称已存在";
     static final String ADD_CHECKITEM_FAIL = "新增检查项失败";
     static final String EDIT_CHECKITEM_FAIL = "编辑检查项失败";
     static final String EDIT_CHECKITEM_SUCCESS = "编辑检查项成功";
@@ -22,6 +27,18 @@ public interface MessageConstant {
     static final String DELETE_CHECKGROUP_FAIL = "删除检查组失败";
     static final String DELETE_CHECKGROUP_SUCCESS = "删除检查组成功";
     static final String QUERY_CHECKGROUP_SUCCESS = "查询检查组成功";
+    static final String QUERY_USER_SUCCESS = "查询用户成功";
+    static final String QUERY_PERMISSION_SUCCESS = "查询权限成功";
+    static final String QUERY_ROLE_SUCCESS = "查询角色成功";
+    static final String EDIT_PERMISSION_SUCCESS = "编辑权限成功";
+    static final String EDIT_ROLE_SUCCESS = "编辑角色成功";
+    static final String EDIT_USER_SUCCESS = "编辑用户成功";
+
+    static final String DELETE_PERMISSION_SUCCESS = "删除权限成功";
+    static final String DELETE_ROLE_SUCCESS = "删除角色成功";
+    static final String DELETE_USER_SUCCESS = "删除用户成功";
+    static final String QUERY_USER_FAIL = "查询用户失败";
+    static final String QUERY_PERMISSION_FAIL = "查询权限失败";
     static final String QUERY_CHECKGROUP_FAIL = "查询检查组失败";
     static final String EDIT_CHECKGROUP_FAIL = "编辑检查组失败";
     static final String EDIT_CHECKGROUP_SUCCESS = "编辑检查组成功";
@@ -45,6 +62,7 @@ public interface MessageConstant {
     static final String EDIT_MEMBER_SUCCESS = "编辑会员成功";
     static final String TELEPHONE_VALIDATECODE_NOTNULL = "手机号和验证码都不能为空";
     static final String LOGIN_SUCCESS = "登录成功";
+    static final String LOGIN_FAILED = "用户名或密码不正确";
     static final String VALIDATECODE_ERROR = "验证码输入错误";
     static final String QUERY_ORDER_SUCCESS = "查询预约信息成功";
     static final String QUERY_ORDER_FAIL = "查询预约信息失败";

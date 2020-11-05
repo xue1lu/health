@@ -299,7 +299,7 @@
                         //关闭弹窗
                         this.dialogFormVisible4Edit = false;
                         //刷新列表
-                        setTimeout(this.findPage, 2500);
+                        this.findPage();
                     }
                 })
 
@@ -319,7 +319,7 @@
                         //关闭弹窗
                         this.dialogFormVisible = false;
                         //刷新到分页查询页面
-                        setTimeout(this.findPage, 2500);
+                        this.findPage();
                     }
                 })
             },
@@ -328,17 +328,17 @@
                 console.log(JSON.stringify(this.pagination));
                 //发送axios请求后端查询所有检查组
                 axios.post("/checkgroup/findPage.do", this.pagination).then(res => {
-                    this.$message({
+                  /*  this.$message({
                         message: res.data.message,
                         type: res.data.flag ? "success" : "error"
-                    });
+                    });*/
                     if (res.data.flag) {
                         this.dataList = res.data.data.rows;
                         this.pagination.total = res.data.data.total;
                         console.log(res.data);
-                    } else {
+                    }/* else {
                         this.$message.error("系统异常,稍后再试");
-                    }
+                    }*/
                 })
             },
             // 重置表单
@@ -361,9 +361,9 @@
                         this.tableData = res.data.data;
                         console.log(res.data);
                         //this.$message.success("请选择")
-                    } else {
+                    } /*else {
                         this.$message.error("系统异常,稍后再试")
-                    }
+                    }*/
                 })
             },
             // 弹出编辑窗口
@@ -390,16 +390,10 @@
                                         //如果查询到勾选的检查项数据
                                         this.checkitemIds = res2.data.data;
                                         //发送请求获取
-                                    } else {
-                                        this.$message.error("系统异常,稍后再试")
                                     }
                                 });
-                            } else {
-                                this.$message.error("系统异常,稍后再试")
                             }
                         });
-                    } else {
-                        this.$message.error("系统异常,稍后再试")
                     }
                 })
             },
@@ -426,7 +420,7 @@
 
                         if (res.data.flag) {
                             //刷新列表
-                            setTimeout(this.findPage, 2500);
+                            this.findPage();
                         }
                     })
                 }).catch(() => {

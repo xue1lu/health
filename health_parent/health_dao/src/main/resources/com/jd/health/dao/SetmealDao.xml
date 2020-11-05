@@ -122,6 +122,13 @@
         where s.id=#{setmealId}
     </select>
 
+    <!--查询每个套餐对应的数量-->
+    <select id="findSetmealCount" resultType="java.util.Map">
+        select s.name,t.value from t_setmeal s
+        right join (select setmeal_id,count(1) value from t_order group by setmeal_id ) t
+        on s.id=t.setmeal_id
+    </select>
+
     <resultMap id="setmealDetailMap" type="Setmeal">
         <id property="id" column="id"/>
         <result property="name" column="name" />

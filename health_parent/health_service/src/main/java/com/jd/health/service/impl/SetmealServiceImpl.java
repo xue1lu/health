@@ -18,6 +18,7 @@ import org.springframework.util.StringUtils;
 
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Auther lxy
@@ -148,5 +149,12 @@ public class SetmealServiceImpl implements SetmealService {
     public Setmeal findDetailById3(int setmealId) {
         return setmealDao.findDetailById3(setmealId);
     }
+
+    //查询每个套餐的数量
+    @Override
+    public List<Map<String, Object>> findSetmealCount() {
+        return setmealDao.findSetmealCount();
+    }
+
 
 }

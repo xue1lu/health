@@ -6,6 +6,7 @@ import com.jd.health.pojo.QueryPageBean;
 import com.jd.health.pojo.Setmeal;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Auther lxy
@@ -45,4 +46,7 @@ public interface SetmealService {
     Setmeal findDetailById2(int setmealId);
     //根据套餐id查询套餐详情3
     Setmeal findDetailById3(int setmealId);
+
+    //查询每个套餐的数量
+    List<Map<String, Object>> findSetmealCount();
 }

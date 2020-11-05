@@ -13,7 +13,7 @@
 
     <!--更新预约人数-->
     <update id="updateReservationByOrderDate">
-        update t_ordersetting set reservations=reservations+1 where orderDate=#{orderDate} and number>reservations
+        update t_ordersetting set reservations=reservations+1 where orderDate=#{orderDate} and number &gt;reservations
     </update>
 
 

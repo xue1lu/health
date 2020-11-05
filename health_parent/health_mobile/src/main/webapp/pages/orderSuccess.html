@@ -31,6 +31,7 @@
                 <div class="notice-article">
                     <div class="info-title">
                         <span class="name">体检预约成功</span>
+                        <button @click="exportSetmealInfo()">导出PDF</button>
                     </div>
                     <div class="notice-item">
                         <div class="item-title">预约信息</div>
@@ -64,6 +65,11 @@
             el:'#app',
             data:{
                 orderInfo:{}
+            },
+            methods:{
+                exportSetmealInfo(){
+                    window.location.href="/order/exportSetmealInfo.do?id=" + id;
+                }
             },
             mounted(){
                 axios.post("/order/findById.do?id=" + id).then((response) => {

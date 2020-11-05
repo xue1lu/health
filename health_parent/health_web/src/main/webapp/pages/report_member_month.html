@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- 页面meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>传智健康</title>
+    <meta name="description" content="传智健康">
+    <meta name="keywords" content="传智健康">
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../plugins/echarts.js"></script>
+    <link rel="stylesheet" href="../elementUI/index.css">
+    <!--先引入vue-->
+    <script src="../elementUI/vue.js"></script>
+    <script src="../elementUI/index.js"></script>
+</head>
+<body class="hold-transition">
+<div id="app">
+    <div class="content-header">
+        <h1>统计分析
+            <small>会员数量</small>
+        </h1>
+        <el-breadcrumb separator-class="el-icon-arrow-right" class="breadcrumb">
+            <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+            <el-breadcrumb-item>统计分析</el-breadcrumb-item>
+            <el-breadcrumb-item>会员数量</el-breadcrumb-item>
+        </el-breadcrumb>
+
+    </div>
+    <template>
+        <div align="center">
+            <div class="block">
+                <span class="demonstration">起始月份</span>
+                <el-date-picker
+                        v-model="value1"
+                        type="month"
+                        placeholder="选择月" :picker-options="pickerOptionsStart">
+                </el-date-picker>
+                {{value1}}
+                <span class="demonstration">截止月份</span>
+                <el-date-picker
+                        v-model="value2"
+                        type="month"
+                        @change="changeDate"
+                        placeholder="选择月" :picker-options="pickerOptionsEnd">
+                </el-date-picker>
+                {{value2}}
+
+            </div>
+
+
+        </div>
+    </template>
+
+    <div class="app-container">
+
+        <div class="box">
+
+
+            <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+            <div id="chart1" style="height:600px;">
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+<!-- 引入组件库 -->
+<script src="../js/vue.js"></script>
+<script src="../plugins/elementui/index.js"></script>
+<script src="../js/axios-0.18.0.js"></script>
+<script type="text/javascript">
+    var vue = new Vue({
+        el: '#app',
+        data: {
+            value1: "",
+            value2: "",
+            pickerOptionsEnd: {
+                disabledDate: (value2) => {
+                    return value2.getTime() > Date.now();
+                }
+            },
+            pickerOptionsStart: {
+                disabledDate(value1) {
+                    return value1.getTime() > Date.now();
+                },
+            },
+        },
+        method: {
+            changeDate(value1, value2) {
+                // 基于准备好的dom，初始化echarts实例
+                var myChart1 = echarts.init(document.getElementById('chart1'));
+
+                // 使用刚指定的配置项和数据显示图表。
+                //myChart.setOption(option);
+
+                axios.post("/report/getMemberReport2.do?value1=" + value1 + "&value2=" + value2).then((res) => {
+                    /* this.$message({
+                         message: res.data.message,
+                         type: res.data.flag ? "success" : "error"
+                     });*/
+
+                    myChart1.setOption(
+                        {
+                            title: {
+                                text: '会员数量'
+                            },
+                            tooltip: {},
+                            legend: {
+                                data: ['会员数量']
+                            },
+                            xAxis: {
+                                data: res.data.data.months
+                            },
+                            yAxis: {
+                                type: 'value'
+                            },
+                            series: [{
+                                name: '会员数量',
+                                type: 'line',
+                                data: res.data.data.memberCount
+                            }]
+                        });
+
+                });
+            }
+
+        },
+
+    })
+
+    function compareTime(value1, value2) {
+        var start = new Date(value1);
+        var end = new Date(value2);
+        if (end.getTime() < start.getTime()) {
+            return false;
+        } else {
+            return true;
+        }
+
+    }
+
+
+</script>
+</html>

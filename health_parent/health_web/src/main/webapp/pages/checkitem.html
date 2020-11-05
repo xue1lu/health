@@ -258,11 +258,9 @@
                                 //如果修改成功则隐藏输入框
                                 this.dialogFormVisible4Edit = false;
                                 //调用查询列表方法
-                                setTimeout(this.findPage, 2500);
-                                //this.findPage();
+                               // setTimeout(this.findPage, 2500);
+                                this.findPage();
                                 console.log(res.data);
-                            } else {
-                                this.$message.error("系统异常,稍后再试")
                             }
                         })
                     }
@@ -285,11 +283,9 @@
                                //如果新增成功则隐藏输入框
                                this.dialogFormVisible = false;
                                //调用查询列表方法
-                               setTimeout(this.findPage, 2500);
-                               //this.findPage();
+                               //setTimeout(this.findPage, 2500);
+                               this.findPage();
                                console.log(res.data);
-                           } else {
-                               this.$message.error("系统异常,稍后再试")
                            }
                        })
                     }
@@ -299,16 +295,14 @@
             findPage() {
                 //发送axios请求查询
                 axios.post("/checkitem/findPage.do",this.pagination).then(res => {
-                        this.$message({
+                       /* this.$message({
                             message: res.data.message,
                             type: res.data.flag?"success":"error"
-                        });
+                        });*/
                     if (res.data.flag) {
                         this.dataList = res.data.data.rows;
                         this.pagination.total = res.data.data.total;
                         console.log(res.data);
-                    } else {
-                        this.$message.error("系统异常,稍后再试")
                     }
                 })
             },
@@ -332,12 +326,14 @@
                 this.dialogFormVisible4Edit = true;
                 //发送根据id查询请求,回显前端数据
                 axios.get("/checkitem/findById.do?id="+row.id).then(res=>{
+                   /* this.$message({
+                        message: res.data.message,
+                        type: res.data.flag ? "success" : "error"
+                    });*/
                     //如果查询数据成功
                     if (res.data.flag) {
                         //回显数据
                         this.formData = res.data.data;
-                    } else {
-                        this.$message.error("系统异常,稍后再试")
                     }
                 })
             },
@@ -361,14 +357,15 @@
                 }).then(()=>{
                     //发送删除请求后端
                     axios.get("/checkitem/deleteById.do?id="+row.id).then(res=>{
+                        this.$message({
+                            message: res.data.message,
+                            type: res.data.flag ? "success" : "error"
+                        });
                         if (res.data.flag) {
-                            this.$message.success(res.data.message);
                             //刷新列表
 
-                            setTimeout(this.findPage, 2500);
-                            //this.findPage()
-                        } else {
-                            this.$message.error("系统异常,稍后再试")
+                            //setTimeout(this.findPage, 2500);
+                            this.findPage()
                         }
                     })
                 }).catch(()=>{

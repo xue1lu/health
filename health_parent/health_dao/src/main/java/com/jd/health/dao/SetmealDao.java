@@ -7,6 +7,7 @@ import com.jd.health.pojo.Setmeal;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Auther lxy
@@ -57,4 +58,7 @@ public interface SetmealDao {
 
     //根据套餐id查询套餐详情3
     Setmeal findDetailById3(int setmealId);
+
+    //查询每个套餐和数量
+    List<Map<String, Object>> findSetmealCount();
 }

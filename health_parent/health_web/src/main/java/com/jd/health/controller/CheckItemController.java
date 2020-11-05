@@ -4,9 +4,12 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.jd.health.constant.MessageConstant;
 import com.jd.health.entity.PageResult;
 import com.jd.health.entity.Result;
+import com.jd.health.exception.HealthException;
 import com.jd.health.pojo.CheckItem;
 import com.jd.health.pojo.QueryPageBean;
 import com.jd.health.service.CheckItemService;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -19,7 +22,22 @@ import java.util.List;
 @RestController
 @RequestMapping("/checkitem")
 public class CheckItemController {
+    // 订阅 treeCache
+    ///dubbo/ 接口包名/provides/ 解析 ip:port 接口 方法
+    // forPath("/dubbo/com.itheim..CheckItemService/providers") ip:port findAll
 
+    /*Proxy.newProxyInstance(CheckItemController.class.getClassLoader(), new Class[]{CheckItemService.class}, new InvocationHandler() {
+           @Override
+           public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+               // 连接服务提供方
+               Socket socket = new Socket(ip,port);
+               socket.getOutputStream().write("findByAll".getBytes());
+               InputStream inputStream = socket.getInputStream();
+               inputStream.read() 字符流 // 获取服务端响应的结果
+               // 反序列化
+               return list;
+           }
+       });*/
     //注入service
     @Reference
     private CheckItemService checkItemService;
@@ -34,7 +52,9 @@ public class CheckItemController {
 
     //新增检查项的方法
     @PostMapping("/add")
-    public Result add(@RequestBody CheckItem checkItem) {
+    @PreAuthorize("hasAuthority('CHECKITEM_ADD')")
+    public Result add(@RequestBody CheckItem checkItem){
+
         checkItemService.add(checkItem);
         //返回结果
         return new Result(true, MessageConstant.ADD_CHECKITEM_SUCCESS);
@@ -50,6 +70,7 @@ public class CheckItemController {
 
     //分页查询
     @PostMapping("/findPage")
+  //  @PreAuthorize("hasAuthority('CHECKITEM_QUERY')")
     public Result findPage(@RequestBody QueryPageBean queryPageBean) {
         PageResult<CheckItem> pageResult = checkItemService.findPage(queryPageBean);
         //响应前端
@@ -74,7 +95,7 @@ public class CheckItemController {
 
     //修改检查项
     @PostMapping("/update")
-    public Result update(@RequestBody CheckItem checkItem) {
+    public Result update(@Validated @RequestBody CheckItem checkItem) {
         checkItemService.update(checkItem);
         //响应
         return new Result(true, MessageConstant.EDIT_CHECKITEM_SUCCESS);

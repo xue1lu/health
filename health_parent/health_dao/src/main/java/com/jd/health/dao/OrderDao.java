@@ -2,6 +2,7 @@ package com.jd.health.dao;
 
 import com.jd.health.pojo.Member;
 import com.jd.health.pojo.Order;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -18,4 +19,19 @@ public interface OrderDao {
 
     //根据预约订单id查询预约信息
     Map<String, Object> findOrderDetailById(int orderId);
+
+    //今日预约数）
+    int findOrderCountByDate(String reportDate);
+
+    //（今日到诊数）
+    int findVisitCountByDate(String reportDate);
+
+    //区间预约数
+    int findTotalCountBetween(@Param("startDate") String startDate,@Param("endDate") String endDate);
+
+    //指定日期后到诊数）
+    int findVisitCountAfterDate(String date);
+
+    //查询热门套餐
+    List<Map<String, Object>> findHotSetmeal();
 }

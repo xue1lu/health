@@ -52,6 +52,7 @@ public class GenerateHtmlJob {
     //执行任务策略
     @Scheduled(initialDelay = 3000, fixedDelay = 30000)
     public void generateHtml() {
+        log.info("任务策略执行了");
         //获取要生成的套餐的id
         Jedis jedis = jedisPool.getResource();
         String key = "setmeal:static:html";

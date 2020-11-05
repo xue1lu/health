@@ -8,7 +8,8 @@
         http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
-   <mvc:annotation-driven>
+   <mvc:annotation-driven validator="validator">
+
        <!---->
        <mvc:message-converters register-defaults="true">
            <!--不需要视图解析器,返回json格式-->
@@ -36,7 +37,8 @@
     <!--指定服务中心注册地址-->
     <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
     <!--注解包扫描-->
-    <dubbo:annotation package="com.jd.health.controller"/>
+    <dubbo:annotation package="com.jd.health"/>
+    <dubbo:annotation package="com.jd.health.controller.HealExceptionAdvice"/>
     <!--
        超时全局设置 10分钟
        check=false 不检查服务提供方，开发阶段建议设置为false
@@ -49,7 +51,12 @@
         <property name="maxInMemorySize" value="4096"/>
         <property name="defaultEncoding" value="UTF-8"/>
     </bean>
+    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+        <property name="providerClass" value="org.hibernate.validator.HibernateValidator"/>
+    </bean>
+
     <!--导入redis-->
     <import resource="classpath:spring-jedis.xml"/>
+    <import resource="classpath:spring-security.xml"/>
 
 </beans>
