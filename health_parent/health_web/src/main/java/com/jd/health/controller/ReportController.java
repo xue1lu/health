@@ -237,8 +237,10 @@ public class ReportController {
         List<String> months = new ArrayList<>();
         //定义日历格式
         SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM");
-        Date date1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX").parse(value1);
-        Date date2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX").parse(value2);
+        System.out.println(sdf);
+        Date date1 = sdf.parse(value1);
+        Date date2 = sdf.parse(value2);
+
         Calendar calendar = Calendar.getInstance();
         //设置起始时间
         calendar.setTime(date1);
@@ -260,7 +262,7 @@ public class ReportController {
     @GetMapping("/getMemberReportByGender")
     public Result getMemberReportByGender() {
         //定义模型接收查询数据
-        List<Map<String, Object>> memberCount = new ArrayList<>();
+        List<Map<String, Object>> memberCount = memberService.findMemberCount();
         //定义模型接收查询性别
         List<String>  genderNames= new ArrayList<>();
         if (memberCount != null) {
@@ -276,6 +278,26 @@ public class ReportController {
         //封装查询结果
         Map<String, Object> dataMap= new HashMap<>();
         dataMap.put("genderNames", genderNames);
+        dataMap.put("memberCount", memberCount);
+        //响应
+        return new Result(true, MessageConstant.GET_MEMBER_NUMBER_REPORT_SUCCESS, dataMap);
+    }
+
+    //会员年龄占比
+    @GetMapping("/getMemberReportByAge")
+    public Result getMemberReportByAge() {
+        //定义模型接收查询数据
+        List<Map<String, Object>> memberCount = memberService.findMemberCountByAge();
+        //定义模型接收查询年龄段
+        List<String>  ageNames= new ArrayList<>();
+        if (memberCount != null) {
+            for (Map<String, Object> map : memberCount) {
+                ageNames.add((String) map.get("name"));
+            }
+        }
+        //封装查询结果
+        Map<String, Object> dataMap= new HashMap<>();
+        dataMap.put("ageNames", ageNames);
         dataMap.put("memberCount", memberCount);
         //响应
         return new Result(true, MessageConstant.GET_MEMBER_NUMBER_REPORT_SUCCESS, dataMap);

@@ -6,6 +6,7 @@ import com.jd.health.pojo.Role;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @Auther lxy
@@ -42,4 +43,20 @@ public interface RoleDao {
 
     //查询所有角色
     List<Role> findAll();
+
+    //新增角色菜单关系
+    void addRoleMenu(@Param("roleId") Integer roleId,@Param("menuId") Integer menuId);
+
+    //查询所有勾选菜单id
+
+    List<Integer> findRoleIds(int id);
+
+    //根据角色id删除菜单关系
+    void deleteRoleMenuById(Integer roleId);
+
+    //根据用户id查询角色
+    Set<Role> findRoleByUserId(Integer id);
+
+    //根据角色id查询勾选的菜单
+    List<Integer> findMenuIds(int id);
 }

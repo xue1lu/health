@@ -31,4 +31,24 @@
     <select id="findMemberCountAfterDate" resultType="java.lang.Integer">
          select count(id) from t_member where regTime &gt;=#{value}
     </select>
+
+    <!--查询会员数量信息-->
+    <select id="findMemberCount" resultType="java.util.Map">
+      select sex name,  count(1) value from t_member GROUP BY sex
+    </select>
+
+    <!--查询指定年龄段会员数量-->
+    <select id="findMemberCountByAge" resultType="java.util.Map">
+        SELECT
+	      case
+	      when age BETWEEN 0 and 18 then '0-18岁'
+	      when age BETWEEN 18 and 30 then '18-30岁'
+	      when age BETWEEN 30 and 45 then '30-45岁'
+	      when age >45 then '45岁以上'
+	      end as name,
+	      count(1) as value
+          from
+	      (SELECT  TIMESTAMPDIFF(YEAR, birthday, CURDATE())+1  as age from  t_member) t
+	      GROUP BY name
+    </select>
 </mapper>

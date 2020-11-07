@@ -31,4 +31,31 @@ public interface RoleService {
 
     //查询所有角色
     List<Role> findAll();
+
+    //添加角色
+    void addNew(Integer[] firstIds, Integer[] secondIds, Integer[] permissionIds, Role role);
+
+
+    //获得所有勾选的菜单id
+
+    List<Integer> findRoleIds(int id);
+
+    //修改角色
+    void updateNew(Integer[] firstIds, Integer[] secondIds, Integer[] permissionIds, Role role);
+
+    //删除角色
+    void deleteByIdNew(int id);
+
+    //根据id查询勾选的菜单
+    List<Integer> findMenuIds(int id);
+
+
+    //添加角色
+    void addRole(Integer[] permissionIds, Integer[] menuIds, Role role);
+
+    //更新角色
+    void updateRole(Integer[] permissionIds, Integer[] menuIds, Role role);
+
+    //删除角色
+    void deleteRoleById(int id);
 }

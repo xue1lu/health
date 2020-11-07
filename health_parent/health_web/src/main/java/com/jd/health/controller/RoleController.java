@@ -72,4 +72,62 @@ public class RoleController {
         List<Role> roleList = roleService.findAll();
         return new Result(true, MessageConstant.QUERY_ROLE_SUCCESS, roleList);
     }
+
+    //添加角色信息
+    @PostMapping("/addNew")
+    public Result addNew(Integer[] firstIds,Integer[] secondIds,Integer[] permissionIds ,@RequestBody Role role) {
+        roleService.addNew(firstIds,secondIds, permissionIds,role);
+        return new Result(true, MessageConstant.ADD_ROLE_SUCCESS);
+    }
+
+
+    //获得所有菜单id
+    @GetMapping("/findRoleIds")
+    public Result findRoleIds(int id) {
+        List<Integer> Ids = roleService.findRoleIds(id);
+        return new Result(true, MessageConstant.GET_FIRSTMENU_SUCCESS, Ids);
+    }
+
+    //修改角色信息
+    @PostMapping("/updateNew")
+    public Result updateNew(Integer[] firstIds, Integer[] secondIds, Integer[] permissionIds,@RequestBody Role role) {
+        roleService.updateNew(firstIds,secondIds, permissionIds,role);
+        return new Result(true, MessageConstant.EDIT_ROLE_SUCCESS);
+    }
+
+
+    //根据id删除角色
+    @PostMapping("/deleteByIdNew")
+    public Result deleteByIdNew(int id) {
+        roleService.deleteByIdNew(id);
+        return new Result(true, MessageConstant.DELETE_ROLE_SUCCESS);
+    }
+
+    //根据id查询勾选的菜单
+    @GetMapping("/findMenuIds")
+    public Result findMenuIds(int id) {
+        List<Integer> menuIds = roleService.findMenuIds(id);
+        return new Result(true, MessageConstant.GET_CHECK_SUCCESS, menuIds);
+    }
+
+    //增加角色
+    @PostMapping("/addRole")
+    public Result addRole(Integer[] permissionIds,Integer[] menuIds,@RequestBody Role role) {
+        roleService.addRole(permissionIds, menuIds, role);
+        return new Result(true, MessageConstant.ADD_ROLE_SUCCESS);
+    }
+    //更新角色
+    @PostMapping("/updateRole")
+    public Result updateRole(Integer[] permissionIds,Integer[] menuIds,@RequestBody Role role) {
+        roleService.updateRole(permissionIds, menuIds, role);
+        return new Result(true, MessageConstant.EDIT_ROLE_SUCCESS);
+    }
+
+    //删除角色
+    //根据id删除角色
+    @PostMapping("/deleteRoleById")
+    public Result deleteRoleById(int id) {
+        roleService.deleteRoleById(id);
+        return new Result(true, MessageConstant.DELETE_ROLE_SUCCESS);
+    }
 }

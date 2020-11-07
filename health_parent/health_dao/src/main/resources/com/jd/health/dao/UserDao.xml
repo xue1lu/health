@@ -87,4 +87,9 @@
     <select id="findUserRoleIds" resultType="java.lang.Integer">
         select role_id from t_user_role where user_id=#{id}
     </select>
+
+    <!--根据用户名查询用户-->
+    <select id="findUserByUsername" resultType="com.jd.health.pojo.User">
+        select *from t_user where username=#{loginUsername}
+    </select>
 </mapper>

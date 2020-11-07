@@ -175,31 +175,31 @@
                         {
                             "path": "/5-1",
                             "title": "会员数量统计",
-                            "linkUrl": "report_member.html",
+                            "linkUrl": "report_member_month.html",
                             "children": []
                         },
                         {
                             "path": "/5-2",
-                            "title": "预约套餐占比统计",
-                            "linkUrl": "report_setmeal.html",
+                            "title": "会员性别占比统计",
+                                "linkUrl": "report_member_gender.html",
                             "children": []
                         },
                         {
                             "path": "/5-3",
+                            "title": "会员年龄占比统计",
+                            "linkUrl": "report_member_age.html",
+                            "children": []
+                        },
+                        {
+                            "path": "/5-4",
                             "title": "运营数据统计分析",
                             "linkUrl": "report_business.html",
                             "children": []
                         },
                         {
-                            "path": "/5-4",
-                            "title": "会员数量统计月度累计",
-                            "linkUrl": "report_member_month.html",
-                            "children": []
-                        },
-                        {
                             "path": "/5-5",
-                            "title": "会员数量统计性别",
-                            "linkUrl": "report_member_gender.html",
+                            "title": "预约套餐占比统计",
+                            "linkUrl": "report_setmeal.html",
                             "children": []
                         },
                     ]
@@ -212,7 +212,7 @@
                         {
                             "path": "/6-1",
                             "title": "菜单管理",
-                            "linkUrl": "ordersettinglist.html",
+                            "linkUrl": "menu.html",
                             "children": []
                         },
                         {
@@ -224,7 +224,7 @@
                         {
                             "path": "/6-3",
                             "title": "角色管理",
-                            "linkUrl": "role.html",
+                            "linkUrl": "role1.html",
                             "children": []
                         },
                         {
@@ -242,10 +242,19 @@
             axios.get("/user/getUsername.do").then(res => {
                 if (res.data.flag) {
                     this.loginUsername = res.data.data;
-                } /*else {
-                    this.$message.error("系统异常,稍后再试")
-                }*/
+                    //this.findMenuByLoginUsername(this.loginUsername);
+                }
             })
+        },
+        methods: {
+            //根据用户名查询菜单
+            findMenuByLoginUsername(loginUsername) {
+                axios.get("/menu/findMenuByLoginUsername.do?loginUsername="+loginUsername).then(res => {
+                        if(res.data.flag){
+                            this.menuList = res.data.data;
+                        }
+                })
+            }
         }
     });
 

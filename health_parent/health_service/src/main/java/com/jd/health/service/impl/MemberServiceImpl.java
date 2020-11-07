@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Auther lxy
@@ -43,5 +44,18 @@ public class MemberServiceImpl implements MemberService {
             }
         }
         return memberCount;
+    }
+
+
+    //查询会员数量信息
+    @Override
+    public List<Map<String, Object>> findMemberCount() {
+        return memberDao.findMemberCount();
+    }
+
+    //查询指定年龄段会员数量
+    @Override
+    public List<Map<String, Object>> findMemberCountByAge() {
+        return memberDao.findMemberCountByAge();
     }
 }

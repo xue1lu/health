@@ -2,6 +2,9 @@ package com.jd.health.dao;
 
 import com.jd.health.pojo.Member;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * @Auther lxy
  * @Date
@@ -24,4 +27,10 @@ public interface MemberDao {
 
     //指定日期后新增会员数）
     int findMemberCountAfterDate(String date);
+
+    //查询会员数量信息
+    List<Map<String, Object>> findMemberCount();
+
+    //查询指定年龄段会员数量
+    List<Map<String, Object>> findMemberCountByAge();
 }

@@ -51,6 +51,10 @@ public interface MessageConstant {
     static final String IMPORT_ORDERSETTING_FAIL = "批量导入预约设置失败,可预约的数量不能小于已预约的数量";
     static final String IMPORT_ORDERSETTING_SUCCESS = "批量导入预约设置数据成功";
     static final String GET_ORDERSETTING_SUCCESS = "获取预约设置数据成功";
+    static final String GET_CHECK_SUCCESS = "获取勾选菜单数据成功";
+    static final String GET_ALLMENU_SUCCESS = "获取勾选菜单数据成功";
+    static final String GET_FIRSTMENU_SUCCESS = "获取所有一级菜单成功";
+    static final String GET_SECONDMENU_SUCCESS = "获取所有二级菜单成功";
     static final String GET_ORDERSETTING_FAIL = "获取预约设置数据失败";
     static final String ORDERSETTING_SUCCESS = "预约设置成功";
     static final String ORDERSETTING_FAIL = "预约设置失败";

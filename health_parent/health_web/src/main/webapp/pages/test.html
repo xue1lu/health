@@ -11,37 +11,36 @@
 <body>
 <div id="app">
 
-    <el-date-picker
+    <el-col>
 
-            v-model="startTime"
+        <el-date-picker
+                v-model="start"
+                format="yyyy-MM"
+                value-format="yyyy-MM"
+                type="month"
+                placeholder="选择报名开始日期"
+                :picker-options="pickerOptionsStart"
+                @change="TimeStart"
+        >
+        </el-date-picker>
+        {{start}}
+    </el-col>
+    <el-col class="line" :span="2">-</el-col>
+    <el-col>
+        <span class="demonstration">截止月份</span>
+        <el-date-picker
+                v-model="end"
+                format="yyyy-MM"
+                value-format="yyyy-MM"
+                type="month"
+                placeholder="选择报名结束日期"
+                :picker-options="pickerOptionsEnd"
+                @change="TimeEnd"
+        >
+        </el-date-picker>
+        {{end}}
+    </el-col>
 
-            type="month"
-
-            placeholder=" "
-
-            :picker-options="pickerOptions"
-
-            style="width:135px;"
-
-    ></el-date-picker>
-
-{{startTime}}
-    <el-date-picker
-
-            v-model="endTime"
-
-            type="month"
-
-            @change="changeDate"
-
-            placeholder=" "
-
-            :picker-options="pickerOptions1"
-
-            style="width:135px;"
-
-    ></el-date-picker>
-    {{endTime}}
 
 </div>
 </body>
@@ -50,37 +49,32 @@
         el: "#app",
 
         data: {
-            startTime: '',
-            endTime: '',
-            pickerOptions: {
-                disabledDate: time => {
-                    return (
-
-                        time.getTime() > new Date().getTime() ||
-
-                        time.getTime() > new Date(this.endTime).getTime() - 8.64e7
-
-                    );
-
-                }
-
-            }, // 日期设置对象
-
-            pickerOptions1: {
-                disabledDate: time => {
-                    return (
-
-                        time.getTime() > new Date().getTime() + 8.64e7 ||
-
-                        time.getTime() < new Date(this.startTime).getTime() + 8.64e7
-
-                    );
-
-                }
-
+            start: "", // 开始时间
+            end: "", // 结束时间
+            pickerOptionsStart: {}, // 开始时间
+            pickerOptionsEnd: {}, // 结束时间
+        },
+        mounted(){
+            this.TimeStart(new Date())
+        },
+        methods: {
+            TimeStart(date) {
+                this.pickerOptionsStart = Object.assign({}, this.pickerOptionsStart, {
+                    disabledDate(time) {
+                        return time.getTime() > Date.now() - 8.64e7;
+                    }
+                })
+                this.end = ''; // 结束时间至空
+                // 将选择的时间转为时间戳
+                const date1 = Date.parse(new Date(date));
+                this.pickerOptionsEnd = Object.assign({}, this.pickerOptionsEnd, {
+                    disabledDate(time) {
+                        return time.getTime() < date1 || time.getTime() > Date.now();
+                    }
+                })
             },
-        }
 
+        }
 
     })
 </script>

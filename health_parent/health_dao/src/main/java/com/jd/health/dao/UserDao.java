@@ -41,4 +41,7 @@ public interface UserDao {
 
     //删除用户
     void deleteUserById(int id);
+
+    //根据用户名查询用户
+    User findUserByUsername(String loginUsername);
 }

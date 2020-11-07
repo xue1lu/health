@@ -15,6 +15,7 @@
     <!--先引入vue-->
     <script src="../elementUI/vue.js"></script>
     <script src="../elementUI/index.js"></script>
+    <script src="../plugins/healthmobile.js"></script>
 </head>
 <body class="hold-transition">
 <div id="app">
@@ -34,23 +35,32 @@
             <div class="block">
                 <span class="demonstration">起始月份</span>
                 <el-date-picker
-                        v-model="value1"
+                        v-model="start"
+                        format="yyyy-MM"
+                        value-format="yyyy-MM"
                         type="month"
-                        placeholder="选择月" :picker-options="pickerOptionsStart">
+                        placeholder="开始月份"
+                        :picker-options="pickerOptionsStart"
+                        @change="TimeStart"
+                >
                 </el-date-picker>
-                {{value1}}
+
+
                 <span class="demonstration">截止月份</span>
                 <el-date-picker
-                        v-model="value2"
+                        v-model="end"
+                        format="yyyy-MM"
+                        value-format="yyyy-MM"
                         type="month"
-                        @change="changeDate"
-                        placeholder="选择月" :picker-options="pickerOptionsEnd">
+                        placeholder="结束月份"
+                        :picker-options="pickerOptionsEnd"
+                        @change="TimeEnd"
+                >
                 </el-date-picker>
-                {{value2}}
+
+                <button @click="findByMonth()">查询</button>
 
             </div>
-
-
         </div>
     </template>
 
@@ -72,36 +82,49 @@
 <script src="../plugins/elementui/index.js"></script>
 <script src="../js/axios-0.18.0.js"></script>
 <script type="text/javascript">
+
     var vue = new Vue({
         el: '#app',
         data: {
-            value1: "",
-            value2: "",
-            pickerOptionsEnd: {
-                disabledDate: (value2) => {
-                    return value2.getTime() > Date.now();
-                }
-            },
-            pickerOptionsStart: {
-                disabledDate(value1) {
-                    return value1.getTime() > Date.now();
-                },
-            },
+            start: "", // 开始时间
+            end: "", // 结束时间
+            pickerOptionsStart: {}, // 开始时间
+            pickerOptionsEnd: {}, // 结束时间
+
         },
-        method: {
-            changeDate(value1, value2) {
+        mounted() {
+            this.TimeStart(new Date());
+            this.function();
+
+        },
+        methods: {
+            TimeStart(date) {
+                this.pickerOptionsStart = Object.assign({}, this.pickerOptionsStart, {
+                    disabledDate(time) {
+                        return time.getTime() > Date.now() - 8.64e7;
+                    }
+                })
+                this.end = ''; // 结束时间至空
+                // 将选择的时间转为时间戳
+                const date1 = Date.parse(new Date(date));
+                this.pickerOptionsEnd = Object.assign({}, this.pickerOptionsEnd, {
+                    disabledDate(time) {
+                        return time.getTime() < date1 || time.getTime() > Date.now();
+                    }
+                })
+            },
+
+            function() {
+
+
                 // 基于准备好的dom，初始化echarts实例
                 var myChart1 = echarts.init(document.getElementById('chart1'));
 
                 // 使用刚指定的配置项和数据显示图表。
                 //myChart.setOption(option);
 
-                axios.post("/report/getMemberReport2.do?value1=" + value1 + "&value2=" + value2).then((res) => {
-                    /* this.$message({
-                         message: res.data.message,
-                         type: res.data.flag ? "success" : "error"
-                     });*/
 
+                axios.get("/report/getMemberReport.do").then((res) => {
                     myChart1.setOption(
                         {
                             title: {
@@ -125,22 +148,45 @@
                         });
 
                 });
-            }
 
+            },
+            findByMonth() {
+                // 基于准备好的dom，初始化echarts实例
+                var myChart1 = echarts.init(document.getElementById('chart1'));
+
+                // 使用刚指定的配置项和数据显示图表。
+                //myChart.setOption(option);
+
+                    var value2=increase(this.end)
+                axios.post("/report/getMemberReport2.do?value1=" + this.start + "&value2=" + value2).then((res) => {
+                    myChart1.setOption(
+                        {
+                            title: {
+                                text: '会员数量'
+                            },
+                            tooltip: {},
+                            legend: {
+                                data: ['会员数量']
+                            },
+                            xAxis: {
+                                data: res.data.data.months
+                            },
+                            yAxis: {
+                                type: 'value'
+                            },
+                            series: [{
+                                name: '会员数量',
+                                type: 'line',
+                                data: res.data.data.memberCount
+                            }]
+                        });
+
+                });
+
+            },
         },
 
     })
-
-    function compareTime(value1, value2) {
-        var start = new Date(value1);
-        var end = new Date(value2);
-        if (end.getTime() < start.getTime()) {
-            return false;
-        } else {
-            return true;
-        }
-
-    }
 
 
 </script>
