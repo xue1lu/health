@@ -20,4 +20,9 @@ public interface OrderSettingService {
 
     //根据日期更新预约设置人数
     void updateNumberByOrderDate(OrderSetting orderSetting)throws HealthException;
+
+    //根据日期更新预约设置信息
+    void updateReservationByDate(int orderCount, String date);
+
+
 }

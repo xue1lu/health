@@ -6,13 +6,13 @@ import com.jd.health.dao.MemberDao;
 import com.jd.health.dao.OrderDao;
 import com.jd.health.dao.OrderSettingDao;
 import com.jd.health.exception.HealthException;
+import com.jd.health.pojo.ClearOrder;
 import com.jd.health.pojo.Member;
 import com.jd.health.pojo.Order;
 import com.jd.health.pojo.OrderSetting;
 import com.jd.health.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -104,6 +104,18 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Map<String, Object> findOrderDetailById(int orderId) {
         return orderDao.findOrderDetailById(orderId);
+    }
+
+    //根据时间查询已预约信息
+    @Override
+    public List<ClearOrder> findOrderBeforeDate(String today) {
+        return orderDao.findOrderBeforeDate(today);
+    }
+
+    //删除预约信息
+    @Override
+    public void deleteByDate(String today) {
+        orderDao.deleteByDate(today);
     }
 
 }

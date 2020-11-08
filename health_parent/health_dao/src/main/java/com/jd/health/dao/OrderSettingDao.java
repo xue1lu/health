@@ -1,6 +1,7 @@
 package com.jd.health.dao;
 
 import com.jd.health.pojo.OrderSetting;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
 import java.util.List;
@@ -29,4 +30,7 @@ public interface OrderSettingDao {
 
     //更新预约人数
     int updateReservationByOrderDate(OrderSetting orderSetting);
+
+    //根据日期更新预约设置信息
+    void updateReservationByDate(@Param("count") int orderCount,@Param("date") String date);
 }

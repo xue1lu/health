@@ -1,10 +1,8 @@
 package com.jd.health.controller;
 
-import com.aliyuncs.exceptions.ClientException;
 import com.jd.health.constant.MessageConstant;
 import com.jd.health.constant.RedisMessageConstant;
 import com.jd.health.entity.Result;
-import com.jd.health.utils.SMSUtils;
 import com.jd.health.utils.ValidateCodeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -18,13 +18,6 @@ public interface MenuDao {
     //查询所有菜单信息
     List<Menu> findAllMenu();
 
-    //根据一级菜单id查询二级菜单
-    Menu findSecondMenuByFirstId(Integer firstId);
-
-    //查询父菜单
-    Integer findParentId(Integer secondId);
-
-
     //根据姓名查询一级菜单
     List<Menu> findFirstMenuByUsername(String loginUsername);
 

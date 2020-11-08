@@ -7,6 +7,11 @@
         values (#{memberId},#{orderDate},#{orderType},#{orderStatus},#{setmealId})
     </insert>
 
+    <!--删除预约信息-->
+    <delete id="deleteByDate">
+        delete from t_order where orderDate &lt; #{today}
+    </delete>
+
     <!--多条件查询是否有预约信息-->
     <select id="findByCondition" resultType="com.jd.health.pojo.Order" resultMap="baseResultMap">
         select * from t_order
@@ -84,6 +89,13 @@
         t_setmeal s
         where s.id=sc.setmeal_id
         order by ot.total desc limit 0,4
+    </select>
+
+    <!--根据日期查询已经预约的信息-->
+    <select id="findOrderBeforeDate" resultType="com.jd.health.pojo.ClearOrder">
+        select  t.orderDate,t.count
+        from
+        (select o.* ,count(1) count from t_order o where orderDate &lt;#{today} group by orderDate ) t
     </select>
 
 </mapper>

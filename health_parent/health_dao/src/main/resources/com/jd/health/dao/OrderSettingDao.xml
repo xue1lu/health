@@ -16,6 +16,11 @@
         update t_ordersetting set reservations=reservations+1 where orderDate=#{orderDate} and number &gt;reservations
     </update>
 
+    <!--根据日期更新预约设置信息-->
+    <update id="updateReservationByDate">
+        update t_ordersetting set reservations=reservations-#{count} where orderDate =#{date}
+    </update>
+
 
     <!--根据预约时间查询数据库中的预约设置信息-->
     <select id="findNumberByOrderDate" parameterType="date" resultType="OrderSetting">

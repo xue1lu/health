@@ -1,12 +1,16 @@
 package com.jd.health.job;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.jd.health.pojo.ClearOrder;
+import com.jd.health.service.OrderService;
+import com.jd.health.service.OrderSettingService;
 import com.jd.health.service.SetmealService;
 import com.jd.health.utils.QiNiuUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,6 +23,10 @@ public class CleanImgJob {
     //订阅服务
     @Reference
     private SetmealService setmealService;
+    @Reference
+    private OrderService orderService;
+    @Reference
+    private OrderSettingService orderSettingService;
 
     public void cleanImg() {
         log.info("清理7牛上垃圾图片的任务开始执行...........");
@@ -42,4 +50,6 @@ public class CleanImgJob {
         }
 
     }
+
+
 }

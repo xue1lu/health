@@ -37,18 +37,6 @@ public class CheckItemServiceImpl implements CheckItemService {
         checkItemDao.add(checkItem);
     }
 
-
-    /*  //分页查询方式1
-      @Override
-      public PageResult<CheckItem> findPage(QueryPageBean queryPageBean) {
-
-          Long total = checkItemDao.findByCondition(queryPageBean);
-          System.out.println("total"+total);
-          //查询当前页码展示的行记录
-          List<CheckItem> rows = checkItemDao.findCurrnet(queryPageBean);
-          return new PageResult<CheckItem>(total, rows);
-
-      }*/
     //分页查询
     @Override
     public PageResult<CheckItem> findPage(QueryPageBean queryPageBean) {

@@ -90,4 +90,11 @@ public class OrderSettingServiceImpl implements OrderSettingService {
 
     }
 
+    //根据日期更新预约设置信息
+    @Override
+    public void updateReservationByDate(int orderCount, String date) {
+        orderSettingDao.updateReservationByDate(orderCount, date);
+    }
+
+
 }

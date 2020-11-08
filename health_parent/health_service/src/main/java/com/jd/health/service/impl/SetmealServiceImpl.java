@@ -136,7 +136,7 @@ public class SetmealServiceImpl implements SetmealService {
 
         return setmealList;
     }
-
+//========================================方式1=============================
     //根据套餐id查询套餐详情
     @Override
     public Setmeal findDetailById(int setmealId) {
@@ -155,13 +155,13 @@ public class SetmealServiceImpl implements SetmealService {
         }
         return setmeal;
     }
-
+    //========================================方式2=============================
     //根据套餐id查询套餐详情2
     @Override
     public Setmeal findDetailById2(int setmealId) {
         return setmealDao.findDetailById2(setmealId);
     }
-
+    //========================================方式3,最优  =============================
     //根据套餐id查询套餐详情3
     @Override
     public Setmeal findDetailById3(int setmealId) {

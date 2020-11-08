@@ -9,7 +9,6 @@ import com.jd.health.pojo.QueryPageBean;
 import com.jd.health.pojo.User;
 import com.jd.health.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 

@@ -34,7 +34,4 @@ public interface CheckItemDao {
     //根据检查组id查询检查项
     List<CheckItem> findCheckItemListById(int checkGroupId);
 
- /*   Long findByCondition(QueryPageBean queryPageBean);
-
-    List<CheckItem> findCurrnet(QueryPageBean queryPageBean);*/
 }

@@ -18,15 +18,6 @@
         select *from t_menu
     </select>
 
-    <!--根据一级菜单id查询二级菜单-->
-    <select id="findSecondMenuByFirstId" resultType="com.jd.health.pojo.Menu">
-        select id ,name,description from t_menu where parentMenuId=#{firstId}
-    </select>
-
-    <!--查询父菜单-->
-    <select id="findParentId" resultType="java.lang.Integer">
-        select parentMenuId from t_menu where id=#{secondId}
-    </select>
 
     <!--根据姓名查询一级菜单-->
     <select id="findFirstMenuByUsername" resultType="com.jd.health.pojo.Menu" resultMap="menuMap">

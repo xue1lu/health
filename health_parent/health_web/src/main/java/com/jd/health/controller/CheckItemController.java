@@ -4,14 +4,12 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.jd.health.constant.MessageConstant;
 import com.jd.health.entity.PageResult;
 import com.jd.health.entity.Result;
-import com.jd.health.exception.HealthException;
 import com.jd.health.pojo.CheckItem;
 import com.jd.health.pojo.QueryPageBean;
 import com.jd.health.service.CheckItemService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 
 import java.util.List;
 

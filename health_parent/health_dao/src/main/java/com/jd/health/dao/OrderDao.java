@@ -1,5 +1,6 @@
 package com.jd.health.dao;
 
+import com.jd.health.pojo.ClearOrder;
 import com.jd.health.pojo.Member;
 import com.jd.health.pojo.Order;
 import org.apache.ibatis.annotations.Param;
@@ -34,4 +35,10 @@ public interface OrderDao {
 
     //查询热门套餐
     List<Map<String, Object>> findHotSetmeal();
+
+    //根据日期查询已经预约的信息
+    List<ClearOrder> findOrderBeforeDate(String today);
+
+    //删除预约信息
+    void deleteByDate(String today);
 }
