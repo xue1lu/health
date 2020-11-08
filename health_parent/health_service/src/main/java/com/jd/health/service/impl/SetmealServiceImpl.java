@@ -1,6 +1,8 @@
 package com.jd.health.service.impl;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.jd.health.constant.MessageConstant;
@@ -15,8 +17,10 @@ import com.jd.health.service.SetmealService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
-
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +32,8 @@ import java.util.Map;
 public class SetmealServiceImpl implements SetmealService {
     @Autowired
     private SetmealDao setmealDao;
+    @Autowired
+    private JedisPool jedisPool;
     //分页查询
     @Override
     public PageResult<Setmeal> findPage(QueryPageBean queryPageBean) {
@@ -116,7 +122,19 @@ public class SetmealServiceImpl implements SetmealService {
     //查询所有套餐
     @Override
     public List<Setmeal> findAll() {
-        return setmealDao.findAll();
+        //获得jedis
+        Jedis jedis = jedisPool.getResource();
+        //从jedis中获取数据
+        String setmeal = jedis.get("setmeal");
+        List<Setmeal> setmealList = JSON.parseObject(setmeal, new TypeReference<ArrayList<Setmeal>>(){});
+        if (setmealList == null) {
+            setmealList = setmealDao.findAll();
+            //存入redis
+            jedis.setex("setmeal", 60 * 60 * 24 * 30, JSON.toJSONString(setmealList));
+        }
+        jedis.close();
+
+        return setmealList;
     }
 
     //根据套餐id查询套餐详情
@@ -147,7 +165,16 @@ public class SetmealServiceImpl implements SetmealService {
     //根据套餐id查询套餐详情3
     @Override
     public Setmeal findDetailById3(int setmealId) {
-        return setmealDao.findDetailById3(setmealId);
+        Jedis jedis = jedisPool.getResource();
+        String setmeal_detail = jedis.get("setmeal_detail" + "_" + setmealId);
+        Setmeal setmealObject = JSON.parseObject(setmeal_detail, Setmeal.class);
+        if (setmealObject == null) {
+            setmealObject = setmealDao.findDetailById3(setmealId);
+            jedis.setex("setmeal_detail" + "_" + setmealId, 60 * 60 * 24 * 30, JSON.toJSONString(setmealObject));
+        }
+        jedis.close();
+
+        return setmealObject;
     }
 
     //查询每个套餐的数量

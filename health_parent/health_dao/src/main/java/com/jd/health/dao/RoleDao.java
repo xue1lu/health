@@ -39,7 +39,7 @@ public interface RoleDao {
     int findUserRoleByRoleId(int id);
 
     //删除角色
-    void deleteRoleById(int id)throws HealthException;
+    void deleteRoleById(int id);
 
     //查询所有角色
     List<Role> findAll();

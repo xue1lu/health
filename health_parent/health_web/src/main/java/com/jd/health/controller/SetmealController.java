@@ -79,6 +79,8 @@ public class SetmealController {
         Jedis jedis = jedisPool.getResource();
         jedis.sadd("setmeal:static:html", setmealId + "|1|" + System.currentTimeMillis());
         //归还连接池
+        jedis.del("setmeal_detail" + "_" + setmealId);
+        jedis.del("setmeal");
         jedis.close();
 
         //响应
@@ -110,6 +112,9 @@ public class SetmealController {
         setmealService.update(setmeal, checkgroupIds);
         Jedis jedis = jedisPool.getResource();
         jedis.sadd("setmeal:static:html", setmeal.getId() + "|1|" + System.currentTimeMillis());
+        jedis.del("setmeal_detail" + "_" + setmeal.getId());
+        jedis.del("setmeal");
+
         jedis.close();
         return new Result(true, MessageConstant.EDIT_SETMEAL_SUCCESS);
 
@@ -122,6 +127,8 @@ public class SetmealController {
         //获得jedis
         Jedis jedis = jedisPool.getResource();
         jedis.sadd("setmeal:static:html", setmealId + "|0|" + System.currentTimeMillis());
+        jedis.del("setmeal_detail" + "_" + setmealId);
+        jedis.del("setmeal");
         jedis.close();
 
         return new Result(true, MessageConstant.DELETE_SETMEAL_SUCCESS);

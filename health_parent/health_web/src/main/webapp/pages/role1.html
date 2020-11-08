@@ -224,6 +224,7 @@
                             </el-tab-pane>
                             <el-tab-pane label="菜单信息" name="third">
                                 <div>
+                                    {{defaultProps}}
                                     <el-tree
                                             :data="data2"
                                             show-checkbox
@@ -233,7 +234,7 @@
                                             :default-checked-keys="menuIds"
                                             :props="defaultProps">
                                     </el-tree>
-
+                                {{data2}}
                                 </div>
                             </el-tab-pane>
 

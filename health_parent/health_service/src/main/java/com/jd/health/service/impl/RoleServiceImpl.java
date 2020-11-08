@@ -272,7 +272,7 @@ public class RoleServiceImpl implements RoleService {
     //删除角色
     @Override
     @Transactional
-    public void deleteRoleById(int id) {
+    public void deleteRoleById(int id) throws HealthException {
         //查询角色是否被用户关联
         int count = roleDao.findUserRoleByRoleId(id);
         if (count > 0) {

@@ -56,6 +56,7 @@
                         :picker-options="pickerOptionsEnd"
                         @change="TimeEnd"
                 >
+
                 </el-date-picker>
 
                 <button @click="findByMonth()">查询</button>
@@ -157,7 +158,7 @@
                 // 使用刚指定的配置项和数据显示图表。
                 //myChart.setOption(option);
 
-                    var value2=increase(this.end)
+                var value2 = increase(this.end)
                 axios.post("/report/getMemberReport2.do?value1=" + this.start + "&value2=" + value2).then((res) => {
                     myChart1.setOption(
                         {

@@ -61,5 +61,4 @@
         m.id=t.menu_id and m.level=2
     </select>
 
-
 </mapper>

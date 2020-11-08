@@ -1,6 +1,7 @@
 package com.jd.health.service;
 
 import com.jd.health.entity.PageResult;
+import com.jd.health.exception.HealthException;
 import com.jd.health.pojo.QueryPageBean;
 import com.jd.health.pojo.Role;
 
@@ -57,5 +58,5 @@ public interface RoleService {
     void updateRole(Integer[] permissionIds, Integer[] menuIds, Role role);
 
     //删除角色
-    void deleteRoleById(int id);
+    void deleteRoleById(int id)throws HealthException;
 }
